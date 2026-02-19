@@ -1,965 +1,870 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jxo Hub</title>
-  <meta name="description" content="Discover and launch apps powered by the Jxo platform." />
-  <meta name="theme-color" content="#1a4fd6" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
-
-  <style>
-    :root {
-      --bg: #1a4fd6;
-      --surface: #1f5ae8;
-      --surface2: #1650c8;
-      --border: rgba(255,255,255,0.18);
-      --accent: #ffffff;
-      --accent2: #a8c8ff;
-      --text: #ffffff;
-      --muted: rgba(255,255,255,0.55);
-      --danger: #ffb3b3;
-      --card-hover: #2060f0;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Syne', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* AUTH SCREEN */
-    #auth-screen {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .auth-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 3rem 2.5rem;
-      max-width: 420px;
-      width: 90%;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .auth-card::before {
-      content: '';
-      position: absolute;
-      top: -60px;
-      left: -60px;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%);
-      pointer-events: none;
-    }
-
-    .auth-logo {
-      font-size: 2.8rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      margin-bottom: 0.25rem;
-    }
-
-    .auth-logo span { color: var(--accent); }
-
-    .auth-tagline {
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-    }
-
-    .auth-desc {
-      color: #999;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 2rem;
-    }
-
-    .btn-signin {
-      background: #ffffff;
-      color: #1a4fd6;
-      border: none;
-      border-radius: 12px;
-      padding: 0.9rem 2rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      width: 100%;
-      transition: opacity 0.2s, transform 0.15s;
-      letter-spacing: 0.02em;
-    }
-
-    .btn-signin:hover { opacity: 0.88; transform: translateY(-1px); }
-    .btn-signin:active { transform: translateY(0); }
-
-    /* MAIN APP */
-    #app {
-      display: none;
-      min-height: 100vh;
-    }
-
-    /* HEADER */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(26,79,214,0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .header-logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      flex-shrink: 0;
-    }
-
-    .header-logo span { color: var(--accent); }
-
-    .search-wrap {
-      flex: 1;
-      max-width: 480px;
-      position: relative;
-    }
-
-    .search-wrap input {
-      width: 100%;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 10px;
-      color: #fff;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      padding: 0.55rem 1rem 0.55rem 2.4rem;
-      outline: none;
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    .search-wrap input:focus { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.2); }
-    .search-wrap input::placeholder { color: rgba(255,255,255,0.45); }
-
-    .search-icon {
-      position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      font-size: 0.85rem;
-      pointer-events: none;
-    }
-
-    .header-right {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-shrink: 0;
-    }
-
-    .user-pill {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 100px;
-      padding: 0.3rem 0.9rem 0.3rem 0.4rem;
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    .user-pill:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.5); }
-
-    .user-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: rgba(255,255,255,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.3);
-      overflow: hidden;
-    }
-
-    .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
-
-    .user-name {
-      font-size: 0.85rem;
-      font-weight: 600;
-      max-width: 120px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .btn-signout {
-      background: none;
-      border: 1px solid rgba(255,255,255,0.25);
-      color: rgba(255,255,255,0.6);
-      border-radius: 8px;
-      padding: 0.4rem 0.75rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
-    }
-
-    .btn-signout:hover { color: #fff; border-color: rgba(255,255,255,0.6); }
-
-    /* MAIN CONTENT */
-    main {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 2.5rem 2rem 6rem;
-    }
-
-    .section-title {
-      font-size: 0.7rem;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* HERO BANNER */
-    .hero {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 20px;
-      padding: 3rem;
-      margin-bottom: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -60px;
-      left: 20%;
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle, rgba(168,200,255,0.12), transparent 70%);
-    }
-
-    .hero h1 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      margin-bottom: 0.75rem;
-      line-height: 1.1;
-    }
-
-    .hero h1 em {
-      color: #a8c8ff;
-      font-style: normal;
-    }
-
-    .hero p {
-      color: #888;
-      font-size: 1rem;
-      font-family: 'DM Mono', monospace;
-      max-width: 480px;
-    }
-
-    /* APPS GRID */
-    .apps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .app-card {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px;
-      padding: 1.5rem;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s, transform 0.15s;
-      position: relative;
-      overflow: hidden;
-      animation: fadeUp 0.4s both;
-    }
-
-    .app-card:hover {
-      background: rgba(255,255,255,0.18);
-      border-color: rgba(255,255,255,0.35);
-      transform: translateY(-2px);
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .app-card::after {
-      content: '↗';
-      position: absolute;
-      top: 1.25rem;
-      right: 1.25rem;
-      color: var(--muted);
-      font-size: 0.85rem;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    .app-card:hover::after { opacity: 1; }
-
-    .app-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      object-fit: cover;
-      margin-bottom: 1rem;
-      background: rgba(255,255,255,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      border: 1px solid rgba(255,255,255,0.2);
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .app-icon img { width: 100%; height: 100%; object-fit: cover; }
-
-    .app-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-      letter-spacing: -0.02em;
-    }
-
-    .app-author {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: #a8c8ff;
-      margin-bottom: 0.6rem;
-      letter-spacing: 0.04em;
-    }
-
-    .app-desc {
-      font-size: 0.85rem;
-      color: #888;
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* LOADING / EMPTY */
-    .loading-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .skeleton-card {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      padding: 1.5rem;
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    .skeleton-line {
-      background: rgba(255,255,255,0.15);
-      border-radius: 6px;
-      margin-bottom: 0.75rem;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--muted);
-      grid-column: 1 / -1;
-    }
-
-    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
-    .empty-state p { font-family: 'DM Mono', monospace; font-size: 0.85rem; }
-
-    /* OZO BUTTON */
-    #ozo-btn {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 200;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: #ffffff;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
-      transition: transform 0.2s, box-shadow 0.2s;
-      color: #1a4fd6;
-    }
-
-    #ozo-btn:hover {
-      transform: scale(1.1) rotate(-5deg);
-      box-shadow: 0 6px 32px rgba(0,0,0,0.35);
-    }
-
-    #ozo-label {
-      position: fixed;
-      bottom: 2rem;
-      right: 5.5rem;
-      z-index: 200;
-      background: #ffffff;
-      border: 1px solid rgba(26,79,214,0.2);
-      border-radius: 100px;
-      padding: 0.4rem 0.85rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #1a4fd6;
-      letter-spacing: 0.08em;
-      pointer-events: none;
-      opacity: 0;
-      transform: translateX(8px);
-      transition: opacity 0.2s, transform 0.2s;
-    }
-
-    #ozo-btn:hover ~ #ozo-label,
-    #ozo-label.show { opacity: 1; transform: translateX(0); }
-
-    /* OZO MODAL */
-    #ozo-modal {
-      display: none;
-      position: fixed;
-      bottom: 5.5rem;
-      right: 2rem;
-      z-index: 300;
-      width: 380px;
-      height: 560px;
-      max-width: calc(100vw - 4rem);
-      max-height: calc(100vh - 8rem);
-      background: #ffffff;
-      border: 1px solid rgba(26,79,214,0.15);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.25);
-      animation: popUp 0.25s cubic-bezier(0.34,1.56,0.64,1);
-    }
-
-    @keyframes popUp {
-      from { opacity: 0; transform: scale(0.9) translateY(20px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    #ozo-modal.open { display: flex; flex-direction: column; }
-
-    .ozo-header {
-      display: flex;
-      align-items: center;
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid rgba(26,79,214,0.1);
-      gap: 0.6rem;
-      flex-shrink: 0;
-      background: #f0f5ff;
-    }
-
-    .ozo-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #1a4fd6;
-      animation: blink 2s ease-in-out infinite;
-    }
-
-    @keyframes blink { 0%,100% { opacity:1 } 50% { opacity:0.3 } }
-
-    .ozo-title { font-size: 0.9rem; font-weight: 700; color: #1a1a1a; }
-    .ozo-subtitle { font-size: 0.7rem; color: #888; font-family: 'DM Mono', monospace; margin-left: auto; }
-
-    .ozo-close {
-      background: none;
-      border: none;
-      color: #aaa;
-      cursor: pointer;
-      font-size: 1.2rem;
-      padding: 0.1rem 0.3rem;
-      transition: color 0.2s;
-    }
-
-    .ozo-close:hover { color: #333; }
-
-    #ozo-iframe {
-      flex: 1;
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
-
-    #install-banner {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(26,79,214,0.97);
-      border-top: 1px solid rgba(255,255,255,0.2);
-      padding: 1rem 2rem;
-      z-index: 150;
-      align-items: center;
-      gap: 1rem;
-      backdrop-filter: blur(12px);
-    }
-
-    #install-banner p {
-      flex: 1;
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.75);
-    }
-
-    #install-banner p strong { color: #fff; }
-
-    .btn-install {
-      background: #ffffff;
-      color: #1a4fd6;
-      border: none;
-      border-radius: 10px;
-      padding: 0.6rem 1.25rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: opacity 0.2s;
-    }
-
-    .btn-install:hover { opacity: 0.9; }
-
-    .btn-dismiss {
-      background: none;
-      border: none;
-      color: rgba(255,255,255,0.5);
-      cursor: pointer;
-      font-size: 1.2rem;
-    }
-
-    .btn-dismiss:hover { color: #fff; }
-
-    /* SEARCH RESULTS */
-    #jxo-search-results {
-      display: none;
-      margin-bottom: 2rem;
-    }
-
-    .jxo-result-item {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      margin-bottom: 0.6rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    .jxo-result-item:hover { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.2); }
-
-    .result-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem; }
-    .result-url { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: #a8c8ff; }
-    .result-snippet { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.4; margin-top: 0.3rem; }
-
-    @media (max-width: 600px) {
-      header { padding: 0 1rem; gap: 0.6rem; }
-      main { padding: 1.5rem 1rem 6rem; }
-      .hero { padding: 2rem 1.5rem; }
-      #ozo-modal { width: calc(100vw - 2rem); right: 1rem; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Jxo Hub</title>
+<meta name="description" content="Discover apps built on the Jxo platform."/>
+<meta name="theme-color" content="#1650DC"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+/* ── TOKENS ── */
+:root{
+  --b0:#0d3ab5;
+  --b1:#1650DC;
+  --b2:#2060f0;
+  --b3:#4d82ff;
+  --b4:#a8c4ff;
+  --b5:#dce8ff;
+  --w:#fff;
+  --w80:rgba(255,255,255,.80);
+  --w50:rgba(255,255,255,.50);
+  --w25:rgba(255,255,255,.25);
+  --w12:rgba(255,255,255,.12);
+  --w06:rgba(255,255,255,.06);
+  --r-sm:10px;
+  --r-md:16px;
+  --r-lg:22px;
+  --r-xl:30px;
+  --r-pill:9999px;
+  --s1:0 2px 8px rgba(10,40,160,.2);
+  --s2:0 8px 32px rgba(10,40,160,.32);
+  --s3:0 20px 60px rgba(10,40,160,.45);
+  --s4:0 40px 100px rgba(8,30,140,.55);
+}
+
+/* ── BASE ── */
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--b1);
+  color:var(--w);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* animated gradient bg */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 90% 70% at 5%  -5%,  rgba(100,150,255,.40) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 50% at 95% 105%,  rgba(10,50,200,.60)  0%,transparent 55%),
+    radial-gradient(ellipse 55% 60% at 55%  55%,  rgba(12,40,170,.30)  0%,transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ══════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════ */
+#auth-screen{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  z-index:800;padding:1.5rem;
+}
+
+.auth-glass{
+  background:rgba(255,255,255,.10);
+  backdrop-filter:blur(48px) saturate(1.8);
+  -webkit-backdrop-filter:blur(48px) saturate(1.8);
+  border:1px solid var(--w25);
+  border-radius:var(--r-xl);
+  padding:3rem 2.5rem;
+  max-width:400px;width:100%;
+  text-align:center;
+  box-shadow:var(--s4);
+  position:relative;overflow:hidden;
+}
+
+.auth-glass::before{
+  content:'';position:absolute;
+  top:-100px;left:-100px;
+  width:250px;height:250px;
+  background:radial-gradient(circle,rgba(255,255,255,.18),transparent 65%);
+  pointer-events:none;
+}
+
+.auth-logo{
+  display:inline-flex;align-items:center;gap:.55rem;
+  margin-bottom:.5rem;
+}
+
+.auth-logo-box{
+  width:44px;height:44px;
+  background:var(--w);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;box-shadow:var(--s2);
+}
+
+.auth-logo-text{font-size:2rem;font-weight:900;letter-spacing:-.06em;}
+
+.auth-tag{
+  font-family:'Fira Code',monospace;
+  font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--w50);margin-bottom:1.75rem;
+}
+
+.auth-desc{color:var(--w50);font-size:.9rem;line-height:1.65;margin-bottom:2rem;}
+
+.btn-signin{
+  width:100%;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  background:var(--w);color:var(--b1);
+  border:none;border-radius:var(--r-pill);
+  padding:.9rem 2rem;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;
+  cursor:pointer;box-shadow:var(--s2);
+  transition:transform .15s,box-shadow .15s;
+}
+.btn-signin:hover{transform:translateY(-2px);box-shadow:var(--s3);}
+.btn-signin:active{transform:none;}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+#app{display:none;min-height:100vh;position:relative;z-index:1;}
+
+header{
+  position:sticky;top:0;z-index:300;
+  height:64px;
+  display:flex;align-items:center;gap:1rem;
+  padding:0 1.5rem;
+  background:rgba(22,80,220,.70);
+  backdrop-filter:blur(28px) saturate(2);
+  -webkit-backdrop-filter:blur(28px) saturate(2);
+  border-bottom:1px solid var(--w12);
+}
+
+.logo{display:flex;align-items:center;gap:.45rem;text-decoration:none;flex-shrink:0;}
+
+.logo-box{
+  width:30px;height:30px;
+  background:var(--w);border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;
+}
+
+.logo-name{font-size:1.05rem;font-weight:800;letter-spacing:-.04em;color:var(--w);}
+
+/* search */
+.search{flex:1;max-width:440px;position:relative;}
+
+.search input{
+  width:100%;height:38px;
+  background:var(--w12);
+  border:1.5px solid var(--w25);
+  border-radius:var(--r-pill);
+  color:var(--w);
+  padding:0 1rem 0 2.7rem;
+  font-family:'Outfit',sans-serif;font-size:.875rem;font-weight:500;
+  outline:none;
+  transition:background .2s,border-color .2s;
+}
+.search input::placeholder{color:var(--w50);}
+.search input:focus{background:var(--w25);border-color:var(--w50);}
+
+.search-ic{
+  position:absolute;left:.8rem;top:50%;transform:translateY(-50%);
+  color:var(--w50);pointer-events:none;line-height:0;
+}
+.search-ic svg{width:15px;height:15px;}
+
+/* header right */
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:.5rem;flex-shrink:0;}
+
+.user-pill{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--w12);border:1.5px solid var(--w25);
+  border-radius:var(--r-pill);
+  padding:.2rem .8rem .2rem .25rem;
+  cursor:pointer;text-decoration:none;color:var(--w);
+  transition:background .2s,border-color .2s;
+}
+.user-pill:hover{background:var(--w25);border-color:var(--w50);}
+
+.av{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--b3);border:2px solid var(--w25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:700;overflow:hidden;flex-shrink:0;
+}
+.av img{width:100%;height:100%;object-fit:cover;}
+
+.uname{font-size:.8rem;font-weight:600;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+.btn-out{
+  background:none;border:1.5px solid var(--w25);color:var(--w50);
+  border-radius:var(--r-pill);padding:.3rem .75rem;
+  font-family:'Outfit',sans-serif;font-weight:600;font-size:.75rem;
+  cursor:pointer;transition:color .2s,border-color .2s,background .2s;
+}
+.btn-out:hover{color:var(--w);border-color:var(--w50);background:var(--w06);}
+
+/* ══════════════════════════════════════════
+   MAIN
+══════════════════════════════════════════ */
+main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
+
+/* hero */
+.hero{
+  background:var(--w06);
+  border:1px solid var(--w12);
+  border-radius:var(--r-xl);
+  padding:3.5rem 3rem;
+  margin-bottom:2.5rem;
+  position:relative;overflow:hidden;
+}
+
+.hero-glow{
+  position:absolute;top:-80px;right:-80px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(120,160,255,.22),transparent 68%);
+  pointer-events:none;
+}
+
+.hero-pill{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:var(--w12);border:1px solid var(--w25);
+  border-radius:var(--r-pill);
+  padding:.2rem .75rem;
+  font-family:'Fira Code',monospace;font-size:.62rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--w80);
+  margin-bottom:1.2rem;
+}
+
+.hero-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#6dffa0;
+  animation:blink-dot 2.2s ease-in-out infinite;
+}
+
+@keyframes blink-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+
+.hero h1{
+  font-size:clamp(2rem,5vw,3.6rem);
+  font-weight:900;letter-spacing:-.06em;line-height:1.03;
+  margin-bottom:.7rem;
+}
+
+.hero h1 em{font-style:normal;color:var(--b4);}
+
+.hero p{color:var(--w50);font-size:.95rem;line-height:1.65;max-width:400px;}
+
+/* section label */
+.sec-row{display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;}
+
+.sec-label{
+  font-family:'Fira Code',monospace;
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--w50);
+  white-space:nowrap;
+}
+
+.sec-line{flex:1;height:1px;background:var(--w12);}
+
+.sec-badge{
+  background:var(--w12);border-radius:var(--r-pill);
+  padding:.1rem .55rem;
+  font-family:'Fira Code',monospace;font-size:.62rem;color:var(--w50);
+}
+
+/* jxo search */
+#jxo-sec{display:none;margin-bottom:2rem;}
+
+.jxo-link{
+  display:flex;align-items:center;gap:.75rem;
+  background:var(--w06);border:1px solid var(--w12);
+  border-radius:var(--r-md);padding:1rem 1.2rem;
+  text-decoration:none;color:var(--w);
+  transition:background .15s,border-color .15s;
+}
+.jxo-link:hover{background:var(--w12);border-color:var(--w25);}
+
+.jxo-link-ico{
+  width:36px;height:36px;border-radius:9px;
+  background:var(--b3);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+}
+.jxo-link-title{font-weight:600;font-size:.88rem;margin-bottom:.1rem;}
+.jxo-link-url{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--b4);}
+
+/* apps grid */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(236px,1fr));
+  gap:1rem;
+}
+
+/* skeleton */
+.skel{
+  background:var(--w06);border:1px solid var(--w12);
+  border-radius:var(--r-lg);padding:1.5rem;
+  animation:skel-pulse 1.7s ease-in-out infinite;
+}
+@keyframes skel-pulse{0%,100%{opacity:.5}50%{opacity:.85}}
+.skel-b{background:var(--w12);border-radius:5px;margin-bottom:.7rem;}
+
+/* card */
+.card{
+  background:var(--w06);border:1px solid var(--w12);
+  border-radius:var(--r-lg);padding:1.5rem;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:background .18s,border-color .18s,transform .18s,box-shadow .18s;
+  animation:card-in .35s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes card-in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+.card:hover{
+  background:var(--w12);border-color:var(--w25);
+  transform:translateY(-3px);box-shadow:var(--s2);
+}
+
+.card-arrow{
+  position:absolute;top:1.2rem;right:1.2rem;
+  color:var(--w50);font-size:.85rem;
+  opacity:0;transform:translate(-2px,2px);
+  transition:opacity .18s,transform .18s;
+}
+.card:hover .card-arrow{opacity:1;transform:none;}
+
+.card-icon{
+  width:50px;height:50px;border-radius:13px;
+  background:var(--b2);border:1px solid var(--w12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin-bottom:.95rem;overflow:hidden;flex-shrink:0;
+}
+.card-icon img{width:100%;height:100%;object-fit:cover;border-radius:13px;}
+
+.card-name{font-size:1rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.2rem;}
+.card-author{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--b4);margin-bottom:.6rem;}
+.card-desc{font-size:.82rem;color:var(--w50);line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* empty */
+.empty{grid-column:1/-1;text-align:center;padding:4rem 1rem;color:var(--w50);}
+.empty-icon{font-size:2.5rem;margin-bottom:.75rem;}
+.empty p{font-size:.88rem;}
+
+/* ══════════════════════════════════════════
+   OZO FAB
+══════════════════════════════════════════ */
+#ozo-fab{
+  position:fixed;bottom:1.75rem;right:1.75rem;
+  z-index:600;
+  width:54px;height:54px;border-radius:50%;
+  background:var(--w);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--s3);
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
+}
+#ozo-fab:hover{transform:scale(1.12);box-shadow:var(--s4);}
+#ozo-fab svg{width:28px;height:28px;display:block;}
+
+.fab-dot{
+  position:absolute;top:-2px;right:-2px;
+  width:13px;height:13px;border-radius:50%;
+  background:#6dffa0;border:2.5px solid var(--b1);
+}
+
+#ozo-tip{
+  position:fixed;bottom:2rem;right:5rem;z-index:600;
+  background:var(--w);color:var(--b1);
+  border-radius:var(--r-pill);padding:.38rem .9rem;
+  font-size:.76rem;font-weight:700;white-space:nowrap;
+  box-shadow:var(--s2);pointer-events:none;
+  opacity:0;transform:translateX(6px);
+  transition:opacity .2s,transform .2s;
+}
+#ozo-fab:hover~#ozo-tip{opacity:1;transform:none;}
+
+/* ══════════════════════════════════════════
+   OZO PANEL
+══════════════════════════════════════════ */
+#ozo-panel{
+  position:fixed;
+  bottom:5.5rem;right:1.75rem;
+  z-index:590;
+  width:390px;
+  height:580px;
+  max-width:calc(100vw - 3.5rem);
+  max-height:calc(100dvh - 8rem);
+  display:none;
+  flex-direction:column;
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  box-shadow:var(--s4);
+  border:1.5px solid var(--w25);
+}
+
+#ozo-panel.open{
+  display:flex;
+  animation:pop-in .28s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes pop-in{
+  from{opacity:0;transform:scale(.88) translateY(14px);}
+  to{opacity:1;transform:none;}
+}
+
+/* panel top bar */
+.ozo-bar{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.8rem 1rem;
+  background:var(--b0);
+  border-bottom:1px solid var(--w12);
+  flex-shrink:0;
+}
+
+.ozo-av{
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--b4),#6dffa0);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:900;color:var(--b0);
+  flex-shrink:0;
+}
+
+.ozo-info{flex:1;min-width:0;}
+.ozo-name{font-size:.84rem;font-weight:700;line-height:1;}
+.ozo-status{
+  font-family:'Fira Code',monospace;font-size:.58rem;
+  color:#6dffa0;letter-spacing:.06em;
+}
+
+.ozo-close{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--w12);border:none;
+  color:var(--w50);font-size:1.1rem;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .15s,color .15s;
+}
+.ozo-close:hover{background:var(--w25);color:var(--w);}
+
+/*
+  THE IFRAME — this is the key:
+  flex:1 makes it fill ALL remaining height below the bar.
+  width:100% + border:none = seamless full embed.
+  No wrapper div, no scrolling container — just the iframe directly.
+*/
+#ozo-iframe{
+  flex:1;
+  width:100%;
+  border:none;
+  display:block;
+  background:var(--b1);
+}
+
+/* ══════════════════════════════════════════
+   INSTALL BANNER
+══════════════════════════════════════════ */
+#install-banner{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:400;
+  align-items:center;gap:1rem;
+  padding:1rem 1.5rem;
+  background:rgba(13,58,181,.94);
+  backdrop-filter:blur(16px);
+  border-top:1px solid var(--w12);
+}
+#install-banner p{flex:1;font-size:.85rem;color:var(--w50);}
+#install-banner p strong{color:var(--w);}
+
+.btn-install{
+  background:var(--w);color:var(--b1);
+  border:none;border-radius:var(--r-pill);
+  padding:.55rem 1.25rem;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;
+  cursor:pointer;white-space:nowrap;
+  transition:opacity .15s;
+}
+.btn-install:hover{opacity:.88;}
+
+.btn-x{
+  background:none;border:none;color:var(--w50);
+  font-size:1.3rem;cursor:pointer;line-height:1;
+  transition:color .15s;
+}
+.btn-x:hover{color:var(--w);}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  header{padding:0 1rem;}
+  main{padding:1.5rem 1rem 9rem;}
+  .hero{padding:2rem 1.5rem;}
+  #ozo-panel{
+    right:0;bottom:0;width:100vw;max-width:100vw;
+    height:100dvh;max-height:100dvh;
+    border-radius:0;border:none;
+  }
+}
+</style>
 </head>
 <body>
 
-<!-- AUTH SCREEN -->
+<!-- ── AUTH ─────────────────────────────────── -->
 <div id="auth-screen">
-  <div class="auth-card">
-    <div class="auth-logo">Jxo<span>Hub</span></div>
-    <div class="auth-tagline">App Discovery Platform</div>
+  <div class="auth-glass">
+    <div class="auth-logo">
+      <div class="auth-logo-box">🚀</div>
+      <span class="auth-logo-text">JxoHub</span>
+    </div>
+    <div class="auth-tag">App Discovery Platform</div>
     <p class="auth-desc">Sign in with your Jxo account to browse and launch apps from the Jxo ecosystem.</p>
-    <button class="btn-signin" onclick="Jxo.login()">Sign in with Jxo →</button>
+    <button class="btn-signin" onclick="Jxo.login()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+        <polyline points="10 17 15 12 10 7"/>
+        <line x1="15" y1="12" x2="3" y2="12"/>
+      </svg>
+      Sign in with Jxo
+    </button>
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- ── APP ──────────────────────────────────── -->
 <div id="app">
 
   <header>
-    <div class="header-logo">Jxo<span>Hub</span></div>
+    <a class="logo" href="#">
+      <div class="logo-box">🚀</div>
+      <span class="logo-name">JxoHub</span>
+    </a>
 
-    <div class="search-wrap">
-      <span class="search-icon">⌕</span>
-      <input type="text" id="search-input" placeholder="Search apps or the web..." autocomplete="off" />
+    <div class="search">
+      <span class="search-ic">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </span>
+      <input id="search-input" type="text" placeholder="Search apps…" autocomplete="off" spellcheck="false"/>
     </div>
 
-    <div class="header-right">
+    <div class="hdr-right">
       <div class="user-pill" onclick="Jxo.openAccountManager()">
-        <div class="user-avatar" id="user-avatar-wrap">
-          <span id="user-initials">?</span>
+        <div class="av" id="av">
+          <span id="av-init">?</span>
         </div>
-        <span class="user-name" id="user-display-name">Loading...</span>
+        <span class="uname" id="uname">…</span>
       </div>
-      <button class="btn-signout" onclick="handleSignOut()">Sign out</button>
+      <button class="btn-out" onclick="doSignOut()">Sign out</button>
     </div>
   </header>
 
   <main>
-    <div class="hero">
-      <h1>Discover <em>apps</em><br/>built on Jxo</h1>
-      <p>// curated tools & experiences from the community</p>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-pill"><span class="hero-dot"></span> Jxo Ecosystem</div>
+      <h1>Discover <em>apps</em><br/>built on Jxo.</h1>
+      <p>Curated tools and experiences from the community. One click to launch.</p>
+    </section>
+
+    <!-- Jxo web search result -->
+    <div id="jxo-sec">
+      <div class="sec-row">
+        <span class="sec-label">Jxo Web</span>
+        <div class="sec-line"></div>
+      </div>
+      <div id="jxo-inner"></div>
     </div>
 
-    <!-- Jxo Search Results (shown when searching) -->
-    <div id="jxo-search-results">
-      <div class="section-title">Jxo Web Results</div>
-      <div id="jxo-results-inner"></div>
+    <!-- Apps -->
+    <div class="sec-row">
+      <span class="sec-label" id="apps-label-text">All Apps</span>
+      <div class="sec-line"></div>
+      <span class="sec-badge" id="apps-count">—</span>
     </div>
 
-    <div class="section-title" id="apps-section-title">All Apps</div>
-    <div class="apps-grid" id="apps-grid">
-      <!-- Skeleton cards -->
-      <div class="skeleton-card">
-        <div class="skeleton-line" style="width:56px;height:56px;border-radius:14px;margin-bottom:1rem;"></div>
-        <div class="skeleton-line" style="width:70%;height:14px;"></div>
-        <div class="skeleton-line" style="width:40%;height:10px;"></div>
-        <div class="skeleton-line" style="width:90%;height:10px;"></div>
-        <div class="skeleton-line" style="width:80%;height:10px;"></div>
+    <div class="grid" id="grid">
+      <div class="skel">
+        <div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div>
+        <div class="skel-b" style="width:62%;height:12px;"></div>
+        <div class="skel-b" style="width:38%;height:9px;"></div>
+        <div class="skel-b" style="width:88%;height:9px;"></div>
+        <div class="skel-b" style="width:72%;height:9px;"></div>
       </div>
-      <div class="skeleton-card">
-        <div class="skeleton-line" style="width:56px;height:56px;border-radius:14px;margin-bottom:1rem;"></div>
-        <div class="skeleton-line" style="width:55%;height:14px;"></div>
-        <div class="skeleton-line" style="width:35%;height:10px;"></div>
-        <div class="skeleton-line" style="width:95%;height:10px;"></div>
-        <div class="skeleton-line" style="width:75%;height:10px;"></div>
+      <div class="skel">
+        <div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div>
+        <div class="skel-b" style="width:50%;height:12px;"></div>
+        <div class="skel-b" style="width:32%;height:9px;"></div>
+        <div class="skel-b" style="width:92%;height:9px;"></div>
+        <div class="skel-b" style="width:68%;height:9px;"></div>
       </div>
-      <div class="skeleton-card">
-        <div class="skeleton-line" style="width:56px;height:56px;border-radius:14px;margin-bottom:1rem;"></div>
-        <div class="skeleton-line" style="width:65%;height:14px;"></div>
-        <div class="skeleton-line" style="width:45%;height:10px;"></div>
-        <div class="skeleton-line" style="width:85%;height:10px;"></div>
-        <div class="skeleton-line" style="width:70%;height:10px;"></div>
+      <div class="skel">
+        <div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div>
+        <div class="skel-b" style="width:72%;height:12px;"></div>
+        <div class="skel-b" style="width:45%;height:9px;"></div>
+        <div class="skel-b" style="width:80%;height:9px;"></div>
+        <div class="skel-b" style="width:60%;height:9px;"></div>
+      </div>
+      <div class="skel">
+        <div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div>
+        <div class="skel-b" style="width:56%;height:12px;"></div>
+        <div class="skel-b" style="width:28%;height:9px;"></div>
+        <div class="skel-b" style="width:84%;height:9px;"></div>
+        <div class="skel-b" style="width:76%;height:9px;"></div>
       </div>
     </div>
   </main>
 
-  <!-- OZO -->
-  <button id="ozo-btn" onclick="toggleOzo()" title="Open Ozo AI">🤖</button>
-  <div id="ozo-label">Ozo AI</div>
+  <!-- OZO FAB -->
+  <button id="ozo-fab" onclick="toggleOzo()" aria-label="Open Ozo AI">
+    <div class="fab-dot"></div>
+    <!-- Inline SVG: sparkle star in blue circle -->
+    <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="27" cy="27" r="27" fill="#1650DC"/>
+      <path d="M27 10 L29.5 24 L43 27 L29.5 30 L27 44 L24.5 30 L11 27 L24.5 24 Z" fill="white"/>
+      <circle cx="36" cy="17" r="2" fill="white" opacity=".65"/>
+      <circle cx="16" cy="38" r="1.4" fill="white" opacity=".45"/>
+    </svg>
+  </button>
+  <div id="ozo-tip">Ask Ozo AI</div>
 
-  <div id="ozo-modal">
-    <div class="ozo-header">
-      <div class="ozo-dot"></div>
-      <span class="ozo-title">Ozo</span>
-      <span class="ozo-subtitle">AI Assistant</span>
-      <button class="ozo-close" onclick="toggleOzo()">×</button>
+  <!-- OZO PANEL -->
+  <div id="ozo-panel">
+    <!-- Top bar -->
+    <div class="ozo-bar">
+      <div class="ozo-av">O</div>
+      <div class="ozo-info">
+        <div class="ozo-name">Ozo</div>
+        <div class="ozo-status">● online</div>
+      </div>
+      <button class="ozo-close" onclick="toggleOzo()" aria-label="Close Ozo">&#x2715;</button>
     </div>
-    <iframe id="ozo-iframe" src="" allow="microphone; camera" loading="lazy"></iframe>
+
+    <!--
+      IFRAME — src stays "about:blank" until first open (perf).
+      On open: src is set to https://jxoj.github.io/Ozo
+      flex:1 in CSS makes it fill the entire remaining panel height.
+    -->
+    <iframe
+      id="ozo-iframe"
+      src="about:blank"
+      allow="microphone; camera; autoplay; clipboard-read; clipboard-write; fullscreen"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
   </div>
 
-  <!-- PWA Install Banner -->
+  <!-- INSTALL BANNER -->
   <div id="install-banner">
-    <p><strong>Install Jxo Hub</strong> — Add to your home screen for the full app experience.</p>
-    <button class="btn-install" id="install-btn">Install</button>
-    <button class="btn-dismiss" onclick="dismissInstall()">×</button>
+    <p><strong>Install Jxo Hub</strong> — Add to home screen for the best experience.</p>
+    <button class="btn-install" id="btn-install">Install</button>
+    <button class="btn-x" onclick="dismissInstall()">&#x2715;</button>
   </div>
 
-</div>
+</div><!-- /#app -->
 
 <!-- JXO SDK -->
 <script src="https://jxoj.github.io/Jxo/sdk.js"></script>
 
 <script>
-  // ─── STATE ───────────────────────────────────────────────
-  let allApps = [];
-  let deferredPrompt = null;
-  let ozoOpen = false;
-  let searchTimer = null;
+/* ══════════════════════════════
+   STATE
+══════════════════════════════ */
+var allApps = [];
+var ozoOpen = false;
+var ozoLoaded = false;
+var deferredPrompt = null;
+var searchTimer = null;
 
-  // ─── INIT ────────────────────────────────────────────────
-  async function init() {
-    await Jxo.init('com.jxo.hub');
+/* ══════════════════════════════
+   BOOT
+══════════════════════════════ */
+(async function boot() {
+  try { await Jxo.init('com.jxo.hub'); } catch(e) { console.warn('SDK:', e); }
 
-    if (Jxo.isAuthenticated()) {
-      showApp();
-    } else {
-      document.getElementById('auth-screen').style.display = 'flex';
-      document.getElementById('app').style.display = 'none';
-    }
+  if (Jxo.isAuthenticated()) {
+    showApp();
+  } else {
+    document.getElementById('auth-screen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
   }
+})();
 
-  function showApp() {
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    populateUser();
-    loadApps();
-    setupSearch();
+/* ══════════════════════════════
+   SHOW APP
+══════════════════════════════ */
+function showApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  populateUser();
+  fetchApps();
+  initSearch();
+  registerSW();
+}
+
+/* ══════════════════════════════
+   USER
+══════════════════════════════ */
+function populateUser() {
+  var u = Jxo.getUser();
+  if (!u) return;
+  var name = u.displayName || u.email || 'User';
+  document.getElementById('uname').textContent = name.split(' ')[0];
+  var avEl = document.getElementById('av');
+  if (u.photoURL) {
+    avEl.innerHTML = '<img src="' + h(u.photoURL) + '" alt="' + h(name) + '" onerror="this.outerHTML=\'<span>' + h(name[0].toUpperCase()) + '</span>\'">';
+  } else {
+    document.getElementById('av-init').textContent = name[0].toUpperCase();
   }
+}
 
-  // ─── USER DISPLAY ─────────────────────────────────────────
-  function populateUser() {
-    const user = Jxo.getUser();
-    if (!user) return;
+function doSignOut() { Jxo.signOut(); location.reload(); }
 
-    const nameEl = document.getElementById('user-display-name');
-    const avatarWrap = document.getElementById('user-avatar-wrap');
-    const initialsEl = document.getElementById('user-initials');
-
-    const name = user.displayName || user.email || 'User';
-    nameEl.textContent = name.split(' ')[0]; // First name only
-
-    if (user.photoURL) {
-      const img = document.createElement('img');
-      img.src = user.photoURL;
-      img.alt = name;
-      img.onerror = () => { img.remove(); };
-      initialsEl.textContent = '';
-      avatarWrap.appendChild(img);
-    } else {
-      initialsEl.textContent = name.charAt(0).toUpperCase();
-    }
-  }
-
-  function handleSignOut() {
-    Jxo.signOut();
-    location.reload();
-  }
-
-  // ─── LOAD APPS ────────────────────────────────────────────
-  async function loadApps() {
-    try {
-      const res = await fetch('https://usejxo.github.io/Jxo-Hub/apps.json');
-      const data = await res.json();
-      allApps = data.apps || [];
-      renderApps(allApps);
-    } catch (e) {
-      console.error('Failed to load apps:', e);
-      renderApps([], true);
-    }
-  }
-
-  function renderApps(apps, error = false) {
-    const grid = document.getElementById('apps-grid');
-    const title = document.getElementById('apps-section-title');
-
-    if (error) {
-      grid.innerHTML = `<div class="empty-state"><div class="icon">📡</div><p>Could not load apps. Check your connection.</p></div>`;
-      return;
-    }
-
-    if (apps.length === 0) {
-      grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>No apps found.</p></div>`;
-      return;
-    }
-
-    title.textContent = `${apps.length} App${apps.length !== 1 ? 's' : ''}`;
-
-    grid.innerHTML = apps.map((app, i) => `
-      <div class="app-card" style="animation-delay:${i * 0.05}s" onclick="openApp('${escapeAttr(app.url)}')">
-        <div class="app-icon">
-          ${app.icon
-            ? `<img src="${escapeAttr(app.icon)}" alt="${escapeAttr(app.name)}" onerror="this.parentElement.textContent='📦'" />`
-            : '📦'}
-        </div>
-        <div class="app-name">${escapeHTML(app.name)}</div>
-        <div class="app-author">by ${escapeHTML(app.author)}</div>
-        <div class="app-desc">${escapeHTML(app.description)}</div>
-      </div>
-    `).join('');
-  }
-
-  function openApp(url) {
-    window.open(url, '_blank');
-  }
-
-  // ─── SEARCH ───────────────────────────────────────────────
-  function setupSearch() {
-    const input = document.getElementById('search-input');
-
-    input.addEventListener('input', () => {
-      clearTimeout(searchTimer);
-      const q = input.value.trim();
-
-      if (!q) {
-        clearSearch();
-        return;
-      }
-
-      // Filter local apps immediately
-      const filtered = allApps.filter(a =>
-        a.name.toLowerCase().includes(q.toLowerCase()) ||
-        a.description.toLowerCase().includes(q.toLowerCase()) ||
-        a.author.toLowerCase().includes(q.toLowerCase())
-      );
-      renderApps(filtered);
-
-      // Debounce Jxo web search
-      searchTimer = setTimeout(() => doJxoSearch(q), 600);
-    });
-
-    input.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        input.value = '';
-        clearSearch();
-      }
-    });
-  }
-
-  function clearSearch() {
+/* ══════════════════════════════
+   APPS
+══════════════════════════════ */
+async function fetchApps() {
+  try {
+    var res = await fetch('https://usejxo.github.io/Jxo-Hub/apps.json');
+    if (!res.ok) throw 0;
+    var data = await res.json();
+    allApps = data.apps || [];
     renderApps(allApps);
-    document.getElementById('jxo-search-results').style.display = 'none';
-    document.getElementById('apps-section-title').textContent = `${allApps.length} App${allApps.length !== 1 ? 's' : ''}`;
+  } catch(_) {
+    renderError();
+  }
+}
+
+function renderApps(list) {
+  var grid = document.getElementById('grid');
+  var count = document.getElementById('apps-count');
+  count.textContent = list.length;
+
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><p>No apps found.</p></div>';
+    return;
   }
 
-  async function doJxoSearch(q) {
-    const resultsDiv = document.getElementById('jxo-search-results');
-    const inner = document.getElementById('jxo-results-inner');
+  grid.innerHTML = list.map(function(app, i) {
+    return '<div class="card" style="animation-delay:' + (i * 0.045) + 's" onclick="openApp(\'' + h(app.url) + '\')">' +
+      '<div class="card-arrow">↗</div>' +
+      '<div class="card-icon">' +
+        (app.icon
+          ? '<img src="' + h(app.icon) + '" alt="' + h(app.name) + '" onerror="this.outerHTML=\'📦\'">'
+          : '📦') +
+      '</div>' +
+      '<div class="card-name">' + esc(app.name) + '</div>' +
+      '<div class="card-author">by ' + esc(app.author) + '</div>' +
+      '<div class="card-desc">' + esc(app.description) + '</div>' +
+    '</div>';
+  }).join('');
+}
 
-    resultsDiv.style.display = 'block';
-    inner.innerHTML = '<p style="color:var(--muted);font-family:\'DM Mono\',monospace;font-size:0.78rem">Searching Jxo...</p>';
+function renderError() {
+  document.getElementById('grid').innerHTML =
+    '<div class="empty"><div class="empty-icon">📡</div><p>Could not load apps. Check connection.</p></div>';
+  document.getElementById('apps-count').textContent = '!';
+}
 
-    // Open Jxo search in a new tab for full results
-    // We show a link to the search results page instead of iframing (CORS limitations)
-    inner.innerHTML = `
-      <a class="jxo-result-item" href="https://jxoj.github.io/Jxo?q=${encodeURIComponent(q)}" target="_blank">
-        <div>
-          <div class="result-title">🔍 Search Jxo for "${escapeHTML(q)}"</div>
-          <div class="result-url">jxoj.github.io/Jxo</div>
-          <div class="result-snippet">Open full Jxo search results in a new tab →</div>
-        </div>
-      </a>
-    `;
-  }
+function openApp(url) { window.open(url, '_blank', 'noopener,noreferrer'); }
 
-  // ─── OZO ─────────────────────────────────────────────────
-  function toggleOzo() {
-    const modal = document.getElementById('ozo-modal');
-    const iframe = document.getElementById('ozo-iframe');
+/* ══════════════════════════════
+   SEARCH
+══════════════════════════════ */
+function initSearch() {
+  var inp = document.getElementById('search-input');
 
-    ozoOpen = !ozoOpen;
-    if (ozoOpen) {
-      modal.classList.add('open');
-      if (!iframe.src) iframe.src = 'https://jxoj.github.io/Ozo';
-    } else {
-      modal.classList.remove('open');
-    }
-  }
+  inp.addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    var q = inp.value.trim();
+    if (!q) { clearSearch(); return; }
 
-  // ─── PWA ─────────────────────────────────────────────────
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-    const banner = document.getElementById('install-banner');
-    if (!sessionStorage.getItem('installDismissed')) {
-      banner.style.display = 'flex';
-    }
+    var lq = q.toLowerCase();
+    renderApps(allApps.filter(function(a) {
+      return (a.name + a.description + a.author).toLowerCase().includes(lq);
+    }));
+    document.getElementById('apps-label-text').textContent = 'Matching Apps';
+
+    searchTimer = setTimeout(function() { showJxoLink(q); }, 450);
   });
 
-  document.getElementById('install-btn')?.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') dismissInstall();
-    deferredPrompt = null;
+  inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { inp.value = ''; clearSearch(); }
   });
+}
 
-  function dismissInstall() {
-    document.getElementById('install-banner').style.display = 'none';
-    sessionStorage.setItem('installDismissed', '1');
+function clearSearch() {
+  renderApps(allApps);
+  document.getElementById('apps-label-text').textContent = 'All Apps';
+  document.getElementById('jxo-sec').style.display = 'none';
+}
+
+function showJxoLink(q) {
+  var sec = document.getElementById('jxo-sec');
+  sec.style.display = 'block';
+  document.getElementById('jxo-inner').innerHTML =
+    '<a class="jxo-link" href="https://jxoj.github.io/Jxo?q=' + encodeURIComponent(q) + '" target="_blank" rel="noopener">' +
+      '<div class="jxo-link-ico">🔍</div>' +
+      '<div>' +
+        '<div class="jxo-link-title">Search Jxo for "' + esc(q) + '"</div>' +
+        '<div class="jxo-link-url">jxoj.github.io/Jxo</div>' +
+      '</div>' +
+    '</a>';
+}
+
+/* ══════════════════════════════
+   OZO
+══════════════════════════════ */
+function toggleOzo() {
+  var panel = document.getElementById('ozo-panel');
+  var iframe = document.getElementById('ozo-iframe');
+  ozoOpen = !ozoOpen;
+
+  if (ozoOpen) {
+    // Load iframe only on first open
+    if (!ozoLoaded) {
+      iframe.src = 'https://jxoj.github.io/Ozo';
+      ozoLoaded = true;
+    }
+    panel.classList.add('open');
+  } else {
+    panel.classList.remove('open');
   }
+}
 
-  // ─── SERVICE WORKER ──────────────────────────────────────
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+/* ══════════════════════════════
+   PWA
+══════════════════════════════ */
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (!sessionStorage.getItem('jxo-no-install')) {
+    document.getElementById('install-banner').style.display = 'flex';
   }
+});
 
-  // ─── UTILS ───────────────────────────────────────────────
-  function escapeHTML(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
+document.getElementById('btn-install').addEventListener('click', async function() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  var r = await deferredPrompt.userChoice;
+  if (r.outcome === 'accepted') dismissInstall();
+  deferredPrompt = null;
+});
 
-  function escapeAttr(str) {
-    return String(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  }
+function dismissInstall() {
+  document.getElementById('install-banner').style.display = 'none';
+  sessionStorage.setItem('jxo-no-install', '1');
+}
 
-  // ─── BOOT ────────────────────────────────────────────────
-  init().catch(console.error);
+function registerSW() {
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+}
+
+/* ══════════════════════════════
+   UTILS
+══════════════════════════════ */
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function h(s) { return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 </script>
-
 </body>
 </html>
