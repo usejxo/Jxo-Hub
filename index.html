@@ -11,36 +11,31 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-/* ── RESET ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 
-/* ── TOKENS ── */
 :root{
-  --b0:#0d3ab5;
+  --b0:#0a2e9e;
   --b1:#1650DC;
   --b2:#2060f0;
   --b3:#4d82ff;
   --b4:#a8c4ff;
-  --b5:#dce8ff;
   --w:#fff;
   --w80:rgba(255,255,255,.80);
   --w50:rgba(255,255,255,.50);
   --w25:rgba(255,255,255,.25);
   --w12:rgba(255,255,255,.12);
+  --w08:rgba(255,255,255,.08);
   --w06:rgba(255,255,255,.06);
-  --r-sm:10px;
   --r-md:16px;
   --r-lg:22px;
-  --r-xl:30px;
+  --r-xl:28px;
   --r-pill:9999px;
-  --s1:0 2px 8px rgba(10,40,160,.2);
   --s2:0 8px 32px rgba(10,40,160,.32);
   --s3:0 20px 60px rgba(10,40,160,.45);
   --s4:0 40px 100px rgba(8,30,140,.55);
 }
 
-/* ── BASE ── */
 body{
   font-family:'Outfit',sans-serif;
   background:var(--b1);
@@ -50,25 +45,24 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-/* animated gradient bg */
 body::before{
   content:'';
   position:fixed;inset:0;
   background:
     radial-gradient(ellipse 90% 70% at 5%  -5%,  rgba(100,150,255,.40) 0%,transparent 55%),
-    radial-gradient(ellipse 60% 50% at 95% 105%,  rgba(10,50,200,.60)  0%,transparent 55%),
+    radial-gradient(ellipse 60% 50% at 95% 105%, rgba(10,50,200,.60)   0%,transparent 55%),
     radial-gradient(ellipse 55% 60% at 55%  55%,  rgba(12,40,170,.30)  0%,transparent 60%);
   pointer-events:none;
   z-index:0;
 }
 
-/* ══════════════════════════════════════════
-   AUTH
-══════════════════════════════════════════ */
+/* ══════════════════════════
+   AUTH SCREEN
+══════════════════════════ */
 #auth-screen{
   position:fixed;inset:0;
   display:flex;align-items:center;justify-content:center;
-  z-index:800;padding:1.5rem;
+  z-index:900;padding:1.5rem;
 }
 
 .auth-glass{
@@ -83,35 +77,25 @@ body::before{
   box-shadow:var(--s4);
   position:relative;overflow:hidden;
 }
-
 .auth-glass::before{
-  content:'';position:absolute;
-  top:-100px;left:-100px;
+  content:'';position:absolute;top:-100px;left:-100px;
   width:250px;height:250px;
   background:radial-gradient(circle,rgba(255,255,255,.18),transparent 65%);
   pointer-events:none;
 }
 
-.auth-logo{
-  display:inline-flex;align-items:center;gap:.55rem;
-  margin-bottom:.5rem;
-}
-
+.auth-logo{display:inline-flex;align-items:center;gap:.55rem;margin-bottom:.5rem;}
 .auth-logo-box{
-  width:44px;height:44px;
-  background:var(--w);border-radius:12px;
+  width:44px;height:44px;background:var(--w);border-radius:12px;
   display:flex;align-items:center;justify-content:center;
   font-size:1.4rem;box-shadow:var(--s2);
 }
-
 .auth-logo-text{font-size:2rem;font-weight:900;letter-spacing:-.06em;}
-
 .auth-tag{
   font-family:'Fira Code',monospace;
   font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
   color:var(--w50);margin-bottom:1.75rem;
 }
-
 .auth-desc{color:var(--w50);font-size:.9rem;line-height:1.65;margin-bottom:2rem;}
 
 .btn-signin{
@@ -126,9 +110,9 @@ body::before{
 .btn-signin:hover{transform:translateY(-2px);box-shadow:var(--s3);}
 .btn-signin:active{transform:none;}
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════
    HEADER
-══════════════════════════════════════════ */
+══════════════════════════ */
 #app{display:none;min-height:100vh;position:relative;z-index:1;}
 
 header{
@@ -143,40 +127,34 @@ header{
 }
 
 .logo{display:flex;align-items:center;gap:.45rem;text-decoration:none;flex-shrink:0;}
-
 .logo-box{
-  width:30px;height:30px;
-  background:var(--w);border-radius:7px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.9rem;
+  width:30px;height:30px;background:var(--w);border-radius:7px;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
 }
-
 .logo-name{font-size:1.05rem;font-weight:800;letter-spacing:-.04em;color:var(--w);}
 
-/* search */
-.search{flex:1;max-width:440px;position:relative;}
-
-.search input{
-  width:100%;height:38px;
+/* ── search trigger in header ── */
+.search-trigger{
+  flex:1;max-width:440px;
+  height:38px;
   background:var(--w12);
   border:1.5px solid var(--w25);
   border-radius:var(--r-pill);
-  color:var(--w);
-  padding:0 1rem 0 2.7rem;
-  font-family:'Outfit',sans-serif;font-size:.875rem;font-weight:500;
-  outline:none;
+  display:flex;align-items:center;gap:.6rem;
+  padding:0 1rem 0 .8rem;
+  cursor:text;
   transition:background .2s,border-color .2s;
 }
-.search input::placeholder{color:var(--w50);}
-.search input:focus{background:var(--w25);border-color:var(--w50);}
-
-.search-ic{
-  position:absolute;left:.8rem;top:50%;transform:translateY(-50%);
-  color:var(--w50);pointer-events:none;line-height:0;
+.search-trigger:hover{background:var(--w25);border-color:var(--w50);}
+.search-trigger-icon{color:var(--w50);line-height:0;flex-shrink:0;}
+.search-trigger-icon svg{width:15px;height:15px;}
+.search-trigger-text{font-size:.875rem;font-weight:500;color:var(--w50);flex:1;}
+.search-trigger-kbd{
+  font-family:'Fira Code',monospace;font-size:.6rem;
+  background:var(--w12);border-radius:4px;padding:.1rem .35rem;
+  color:var(--w25);flex-shrink:0;
 }
-.search-ic svg{width:15px;height:15px;}
 
-/* header right */
 .hdr-right{margin-left:auto;display:flex;align-items:center;gap:.5rem;flex-shrink:0;}
 
 .user-pill{
@@ -196,7 +174,6 @@ header{
   font-size:.65rem;font-weight:700;overflow:hidden;flex-shrink:0;
 }
 .av img{width:100%;height:100%;object-fit:cover;}
-
 .uname{font-size:.8rem;font-weight:600;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
 .btn-out{
@@ -207,28 +184,161 @@ header{
 }
 .btn-out:hover{color:var(--w);border-color:var(--w50);background:var(--w06);}
 
-/* ══════════════════════════════════════════
-   MAIN
-══════════════════════════════════════════ */
+/* ══════════════════════════
+   SEARCH MODAL
+══════════════════════════ */
+#search-modal{
+  display:none;
+  position:fixed;inset:0;
+  z-index:700;
+  background:rgba(8,28,130,.60);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  align-items:flex-start;
+  justify-content:center;
+  padding:4.5rem 1.5rem 1.5rem;
+}
+#search-modal.open{display:flex;}
+
+.sm-card{
+  width:100%;max-width:900px;
+  background:var(--b0);
+  border:1.5px solid var(--w25);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  box-shadow:var(--s4);
+  display:flex;flex-direction:column;
+  height:calc(100dvh - 6.5rem);
+  max-height:720px;
+  animation:sm-in .22s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes sm-in{from{opacity:0;transform:scale(.96) translateY(-10px);}to{opacity:1;transform:none;}}
+
+/* search bar inside modal */
+.sm-bar{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.85rem 1.1rem;
+  background:var(--w06);
+  border-bottom:1px solid var(--w12);
+  flex-shrink:0;
+}
+.sm-bar-icon{color:var(--w50);line-height:0;flex-shrink:0;}
+.sm-bar-icon svg{width:16px;height:16px;}
+
+.sm-bar input{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--w);
+  font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:500;
+  caret-color:var(--b4);
+  min-width:0;
+}
+.sm-bar input::placeholder{color:var(--w25);}
+
+.sm-esc{
+  font-family:'Fira Code',monospace;font-size:.6rem;
+  background:var(--w12);border:1px solid var(--w25);border-radius:5px;
+  padding:.15rem .45rem;color:var(--w50);flex-shrink:0;cursor:pointer;
+}
+.sm-esc:hover{background:var(--w25);color:var(--w);}
+
+/* tabs */
+.sm-tabs{
+  display:flex;border-bottom:1px solid var(--w12);
+  flex-shrink:0;padding:0 1.1rem;
+}
+.sm-tab{
+  background:none;border:none;
+  color:var(--w50);
+  font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;
+  padding:.6rem .9rem;cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:color .15s,border-color .15s;
+}
+.sm-tab.on{color:var(--w);border-color:var(--w);}
+.sm-tab:hover:not(.on){color:var(--w80);}
+
+/* panes */
+.sm-pane{display:none;flex:1;overflow:hidden;}
+.sm-pane.on{display:flex;flex-direction:column;}
+
+/* ── Apps pane ── */
+.sm-apps-scroll{
+  flex:1;overflow-y:auto;padding:.75rem 1rem;
+  scrollbar-width:thin;scrollbar-color:var(--w12) transparent;
+}
+
+.sm-row{
+  display:flex;align-items:center;gap:.85rem;
+  padding:.7rem .85rem;border-radius:var(--r-md);
+  cursor:pointer;
+  transition:background .12s;
+}
+.sm-row:hover{background:var(--w08);}
+
+.sm-ico{
+  width:40px;height:40px;border-radius:10px;
+  background:var(--b2);border:1px solid var(--w12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;overflow:hidden;
+}
+.sm-ico img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
+
+.sm-info{flex:1;min-width:0;}
+.sm-name{font-size:.88rem;font-weight:700;letter-spacing:-.02em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sm-meta{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--b4);}
+
+.sm-arr{color:var(--w25);font-size:.8rem;flex-shrink:0;}
+.sm-row:hover .sm-arr{color:var(--w80);}
+
+.sm-empty{text-align:center;padding:3rem 1rem;color:var(--w50);font-size:.85rem;}
+
+.sm-no-query{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;height:100%;gap:.5rem;
+  color:var(--w25);
+}
+.sm-no-query-icon{font-size:2rem;margin-bottom:.25rem;}
+.sm-no-query p{font-size:.8rem;font-family:'Fira Code',monospace;}
+
+/* ── Web pane ── */
+.sm-web{flex:1;position:relative;overflow:hidden;}
+
+#search-iframe{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:none;display:block;
+}
+
+.sm-web-prompt{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;height:100%;gap:.6rem;
+  color:var(--w50);text-align:center;padding:2rem;
+}
+.sm-web-prompt-icon{font-size:2.5rem;margin-bottom:.4rem;}
+.sm-web-prompt p{font-size:.85rem;line-height:1.55;}
+.sm-web-prompt small{
+  font-family:'Fira Code',monospace;font-size:.65rem;color:var(--w25);
+}
+
+/* ══════════════════════════
+   MAIN CONTENT
+══════════════════════════ */
 main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 
-/* hero */
 .hero{
-  background:var(--w06);
-  border:1px solid var(--w12);
+  background:var(--w06);border:1px solid var(--w12);
   border-radius:var(--r-xl);
   padding:3.5rem 3rem;
   margin-bottom:2.5rem;
   position:relative;overflow:hidden;
 }
-
 .hero-glow{
   position:absolute;top:-80px;right:-80px;
   width:300px;height:300px;border-radius:50%;
   background:radial-gradient(circle,rgba(120,160,255,.22),transparent 68%);
   pointer-events:none;
 }
-
 .hero-pill{
   display:inline-flex;align-items:center;gap:.4rem;
   background:var(--w12);border:1px solid var(--w25);
@@ -238,61 +348,31 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
   letter-spacing:.14em;text-transform:uppercase;color:var(--w80);
   margin-bottom:1.2rem;
 }
-
 .hero-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:#6dffa0;
+  width:6px;height:6px;border-radius:50%;background:#6dffa0;
   animation:blink-dot 2.2s ease-in-out infinite;
 }
-
 @keyframes blink-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
-
 .hero h1{
   font-size:clamp(2rem,5vw,3.6rem);
-  font-weight:900;letter-spacing:-.06em;line-height:1.03;
-  margin-bottom:.7rem;
+  font-weight:900;letter-spacing:-.06em;line-height:1.03;margin-bottom:.7rem;
 }
-
 .hero h1 em{font-style:normal;color:var(--b4);}
-
 .hero p{color:var(--w50);font-size:.95rem;line-height:1.65;max-width:400px;}
 
 /* section label */
 .sec-row{display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;}
-
 .sec-label{
   font-family:'Fira Code',monospace;
   font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--w50);
   white-space:nowrap;
 }
-
 .sec-line{flex:1;height:1px;background:var(--w12);}
-
 .sec-badge{
   background:var(--w12);border-radius:var(--r-pill);
   padding:.1rem .55rem;
   font-family:'Fira Code',monospace;font-size:.62rem;color:var(--w50);
 }
-
-/* jxo search */
-#jxo-sec{display:none;margin-bottom:2rem;}
-
-.jxo-link{
-  display:flex;align-items:center;gap:.75rem;
-  background:var(--w06);border:1px solid var(--w12);
-  border-radius:var(--r-md);padding:1rem 1.2rem;
-  text-decoration:none;color:var(--w);
-  transition:background .15s,border-color .15s;
-}
-.jxo-link:hover{background:var(--w12);border-color:var(--w25);}
-
-.jxo-link-ico{
-  width:36px;height:36px;border-radius:9px;
-  background:var(--b3);
-  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
-}
-.jxo-link-title{font-weight:600;font-size:.88rem;margin-bottom:.1rem;}
-.jxo-link-url{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--b4);}
 
 /* apps grid */
 .grid{
@@ -301,16 +381,14 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
   gap:1rem;
 }
 
-/* skeleton */
 .skel{
   background:var(--w06);border:1px solid var(--w12);
   border-radius:var(--r-lg);padding:1.5rem;
-  animation:skel-pulse 1.7s ease-in-out infinite;
+  animation:skel-p 1.7s ease-in-out infinite;
 }
-@keyframes skel-pulse{0%,100%{opacity:.5}50%{opacity:.85}}
+@keyframes skel-p{0%,100%{opacity:.5}50%{opacity:.85}}
 .skel-b{background:var(--w12);border-radius:5px;margin-bottom:.7rem;}
 
-/* card */
 .card{
   background:var(--w06);border:1px solid var(--w12);
   border-radius:var(--r-lg);padding:1.5rem;
@@ -319,12 +397,7 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
   animation:card-in .35s cubic-bezier(.22,1,.36,1) both;
 }
 @keyframes card-in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-
-.card:hover{
-  background:var(--w12);border-color:var(--w25);
-  transform:translateY(-3px);box-shadow:var(--s2);
-}
-
+.card:hover{background:var(--w12);border-color:var(--w25);transform:translateY(-3px);box-shadow:var(--s2);}
 .card-arrow{
   position:absolute;top:1.2rem;right:1.2rem;
   color:var(--w50);font-size:.85rem;
@@ -332,7 +405,6 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
   transition:opacity .18s,transform .18s;
 }
 .card:hover .card-arrow{opacity:1;transform:none;}
-
 .card-icon{
   width:50px;height:50px;border-radius:13px;
   background:var(--b2);border:1px solid var(--w12);
@@ -340,23 +412,19 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
   font-size:1.5rem;margin-bottom:.95rem;overflow:hidden;flex-shrink:0;
 }
 .card-icon img{width:100%;height:100%;object-fit:cover;border-radius:13px;}
-
 .card-name{font-size:1rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.2rem;}
 .card-author{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--b4);margin-bottom:.6rem;}
 .card-desc{font-size:.82rem;color:var(--w50);line-height:1.55;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
-
-/* empty */
 .empty{grid-column:1/-1;text-align:center;padding:4rem 1rem;color:var(--w50);}
 .empty-icon{font-size:2.5rem;margin-bottom:.75rem;}
 .empty p{font-size:.88rem;}
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════
    OZO FAB
-══════════════════════════════════════════ */
+══════════════════════════ */
 #ozo-fab{
-  position:fixed;bottom:1.75rem;right:1.75rem;
-  z-index:600;
+  position:fixed;bottom:1.75rem;right:1.75rem;z-index:600;
   width:54px;height:54px;border-radius:50%;
   background:var(--w);border:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
@@ -365,7 +433,6 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 }
 #ozo-fab:hover{transform:scale(1.12);box-shadow:var(--s4);}
 #ozo-fab svg{width:28px;height:28px;display:block;}
-
 .fab-dot{
   position:absolute;top:-2px;right:-2px;
   width:13px;height:13px;border-radius:50%;
@@ -383,59 +450,34 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 }
 #ozo-fab:hover~#ozo-tip{opacity:1;transform:none;}
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════
    OZO PANEL
-══════════════════════════════════════════ */
+══════════════════════════ */
 #ozo-panel{
-  position:fixed;
-  bottom:5.5rem;right:1.75rem;
-  z-index:590;
-  width:390px;
-  height:580px;
-  max-width:calc(100vw - 3.5rem);
-  max-height:calc(100dvh - 8rem);
-  display:none;
-  flex-direction:column;
-  border-radius:var(--r-xl);
-  overflow:hidden;
-  box-shadow:var(--s4);
-  border:1.5px solid var(--w25);
+  position:fixed;bottom:5.5rem;right:1.75rem;z-index:590;
+  width:390px;height:580px;
+  max-width:calc(100vw - 3.5rem);max-height:calc(100dvh - 8rem);
+  display:none;flex-direction:column;
+  border-radius:var(--r-xl);overflow:hidden;
+  box-shadow:var(--s4);border:1.5px solid var(--w25);
 }
+#ozo-panel.open{display:flex;animation:pop-in .28s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes pop-in{from{opacity:0;transform:scale(.88) translateY(14px);}to{opacity:1;transform:none;}}
 
-#ozo-panel.open{
-  display:flex;
-  animation:pop-in .28s cubic-bezier(.34,1.56,.64,1) both;
-}
-
-@keyframes pop-in{
-  from{opacity:0;transform:scale(.88) translateY(14px);}
-  to{opacity:1;transform:none;}
-}
-
-/* panel top bar */
 .ozo-bar{
   display:flex;align-items:center;gap:.6rem;
-  padding:.8rem 1rem;
-  background:var(--b0);
-  border-bottom:1px solid var(--w12);
-  flex-shrink:0;
+  padding:.8rem 1rem;background:var(--b0);
+  border-bottom:1px solid var(--w12);flex-shrink:0;
 }
-
 .ozo-av{
   width:30px;height:30px;border-radius:50%;
   background:linear-gradient(135deg,var(--b4),#6dffa0);
   display:flex;align-items:center;justify-content:center;
-  font-size:.85rem;font-weight:900;color:var(--b0);
-  flex-shrink:0;
+  font-size:.85rem;font-weight:900;color:var(--b0);flex-shrink:0;
 }
-
 .ozo-info{flex:1;min-width:0;}
 .ozo-name{font-size:.84rem;font-weight:700;line-height:1;}
-.ozo-status{
-  font-family:'Fira Code',monospace;font-size:.58rem;
-  color:#6dffa0;letter-spacing:.06em;
-}
-
+.ozo-status{font-family:'Fira Code',monospace;font-size:.58rem;color:#6dffa0;letter-spacing:.06em;}
 .ozo-close{
   width:28px;height:28px;border-radius:50%;
   background:var(--w12);border:none;
@@ -445,68 +487,46 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 }
 .ozo-close:hover{background:var(--w25);color:var(--w);}
 
-/*
-  THE IFRAME — this is the key:
-  flex:1 makes it fill ALL remaining height below the bar.
-  width:100% + border:none = seamless full embed.
-  No wrapper div, no scrolling container — just the iframe directly.
-*/
-#ozo-iframe{
-  flex:1;
-  width:100%;
-  border:none;
-  display:block;
-  background:var(--b1);
-}
+#ozo-iframe{flex:1;width:100%;border:none;display:block;background:var(--b1);}
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════
    INSTALL BANNER
-══════════════════════════════════════════ */
+══════════════════════════ */
 #install-banner{
-  display:none;
-  position:fixed;bottom:0;left:0;right:0;z-index:400;
-  align-items:center;gap:1rem;
-  padding:1rem 1.5rem;
-  background:rgba(13,58,181,.94);
-  backdrop-filter:blur(16px);
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:400;
+  align-items:center;gap:1rem;padding:1rem 1.5rem;
+  background:rgba(13,58,181,.94);backdrop-filter:blur(16px);
   border-top:1px solid var(--w12);
 }
 #install-banner p{flex:1;font-size:.85rem;color:var(--w50);}
 #install-banner p strong{color:var(--w);}
-
 .btn-install{
-  background:var(--w);color:var(--b1);
-  border:none;border-radius:var(--r-pill);
+  background:var(--w);color:var(--b1);border:none;border-radius:var(--r-pill);
   padding:.55rem 1.25rem;
   font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;
-  cursor:pointer;white-space:nowrap;
-  transition:opacity .15s;
+  cursor:pointer;white-space:nowrap;transition:opacity .15s;
 }
 .btn-install:hover{opacity:.88;}
-
-.btn-x{
-  background:none;border:none;color:var(--w50);
-  font-size:1.3rem;cursor:pointer;line-height:1;
-  transition:color .15s;
-}
+.btn-x{background:none;border:none;color:var(--w50);font-size:1.3rem;cursor:pointer;transition:color .15s;}
 .btn-x:hover{color:var(--w);}
 
-/* ── MOBILE ── */
+/* ══════════════════════════
+   MOBILE
+══════════════════════════ */
 @media(max-width:600px){
   header{padding:0 1rem;}
+  .search-trigger-kbd{display:none;}
   main{padding:1.5rem 1rem 9rem;}
   .hero{padding:2rem 1.5rem;}
-  #ozo-panel{
-    right:0;bottom:0;width:100vw;max-width:100vw;
-    height:100dvh;max-height:100dvh;
-    border-radius:0;border:none;
-  }
+  #ozo-panel{right:0;bottom:0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border-radius:0;border:none;}
+  #search-modal{padding:3.5rem 0 0;}
+  .sm-card{border-radius:var(--r-xl) var(--r-xl) 0 0;max-height:none;height:calc(100dvh - 3.5rem);}
 }
 </style>
 </head>
 <body>
 
-<!-- ── AUTH ─────────────────────────────────── -->
+<!-- ── AUTH ──────────────────────────────────────────── -->
 <div id="auth-screen">
   <div class="auth-glass">
     <div class="auth-logo">
@@ -526,7 +546,7 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
   </div>
 </div>
 
-<!-- ── APP ──────────────────────────────────── -->
+<!-- ── APP ────────────────────────────────────────────── -->
 <div id="app">
 
   <header>
@@ -535,28 +555,76 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
       <span class="logo-name">JxoHub</span>
     </a>
 
-    <div class="search">
-      <span class="search-ic">
+    <!-- clicking this opens the search modal -->
+    <div class="search-trigger" id="search-trigger" role="button" tabindex="0" aria-label="Open search">
+      <span class="search-trigger-icon">
         <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
       </span>
-      <input id="search-input" type="text" placeholder="Search apps…" autocomplete="off" spellcheck="false"/>
+      <span class="search-trigger-text">Search apps &amp; the web…</span>
+      <span class="search-trigger-kbd">⌘K</span>
     </div>
 
     <div class="hdr-right">
       <div class="user-pill" onclick="Jxo.openAccountManager()">
-        <div class="av" id="av">
-          <span id="av-init">?</span>
-        </div>
+        <div class="av" id="av"><span id="av-init">?</span></div>
         <span class="uname" id="uname">…</span>
       </div>
       <button class="btn-out" onclick="doSignOut()">Sign out</button>
     </div>
   </header>
 
+  <!-- ── SEARCH MODAL ───────────────────────────────── -->
+  <div id="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="sm-card">
+
+      <!-- input bar -->
+      <div class="sm-bar">
+        <span class="sm-bar-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
+        <input id="sm-input" type="text" placeholder="Search apps or anything on the web…" autocomplete="off" spellcheck="false"/>
+        <button class="sm-esc" onclick="closeSearch()" title="Close (Esc)">esc</button>
+      </div>
+
+      <!-- tabs -->
+      <div class="sm-tabs">
+        <button class="sm-tab on" id="tab-apps" onclick="switchTab('apps')">Apps</button>
+        <button class="sm-tab" id="tab-web"  onclick="switchTab('web')">Jxo Web Search</button>
+      </div>
+
+      <!-- Apps pane -->
+      <div class="sm-pane on" id="pane-apps">
+        <div class="sm-apps-scroll" id="sm-apps-list">
+          <div class="sm-no-query">
+            <div class="sm-no-query-icon">🔍</div>
+            <p>Start typing to search apps…</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Web pane -->
+      <div class="sm-pane" id="pane-web">
+        <div class="sm-web">
+          <div class="sm-web-prompt" id="web-prompt">
+            <div class="sm-web-prompt-icon">🌐</div>
+            <p>Type a query and switch to this tab<br/>to search the Jxo web index.</p>
+            <small>Powered by jxoj.github.io/Jxo</small>
+          </div>
+          <!-- iframe is injected into .sm-web dynamically -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- backdrop click closes modal -->
+  <script>document.getElementById('search-modal').addEventListener('click',function(e){if(e.target===this)closeSearch();});</script>
+
+  <!-- ── MAIN ───────────────────────────────────────── -->
   <main>
-    <!-- Hero -->
     <section class="hero">
       <div class="hero-glow"></div>
       <div class="hero-pill"><span class="hero-dot"></span> Jxo Ecosystem</div>
@@ -564,59 +632,24 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
       <p>Curated tools and experiences from the community. One click to launch.</p>
     </section>
 
-    <!-- Jxo web search result -->
-    <div id="jxo-sec">
-      <div class="sec-row">
-        <span class="sec-label">Jxo Web</span>
-        <div class="sec-line"></div>
-      </div>
-      <div id="jxo-inner"></div>
-    </div>
-
-    <!-- Apps -->
     <div class="sec-row">
-      <span class="sec-label" id="apps-label-text">All Apps</span>
+      <span class="sec-label" id="apps-label">All Apps</span>
       <div class="sec-line"></div>
       <span class="sec-badge" id="apps-count">—</span>
     </div>
 
     <div class="grid" id="grid">
-      <div class="skel">
-        <div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div>
-        <div class="skel-b" style="width:62%;height:12px;"></div>
-        <div class="skel-b" style="width:38%;height:9px;"></div>
-        <div class="skel-b" style="width:88%;height:9px;"></div>
-        <div class="skel-b" style="width:72%;height:9px;"></div>
-      </div>
-      <div class="skel">
-        <div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div>
-        <div class="skel-b" style="width:50%;height:12px;"></div>
-        <div class="skel-b" style="width:32%;height:9px;"></div>
-        <div class="skel-b" style="width:92%;height:9px;"></div>
-        <div class="skel-b" style="width:68%;height:9px;"></div>
-      </div>
-      <div class="skel">
-        <div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div>
-        <div class="skel-b" style="width:72%;height:12px;"></div>
-        <div class="skel-b" style="width:45%;height:9px;"></div>
-        <div class="skel-b" style="width:80%;height:9px;"></div>
-        <div class="skel-b" style="width:60%;height:9px;"></div>
-      </div>
-      <div class="skel">
-        <div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div>
-        <div class="skel-b" style="width:56%;height:12px;"></div>
-        <div class="skel-b" style="width:28%;height:9px;"></div>
-        <div class="skel-b" style="width:84%;height:9px;"></div>
-        <div class="skel-b" style="width:76%;height:9px;"></div>
-      </div>
+      <div class="skel"><div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div><div class="skel-b" style="width:62%;height:12px;"></div><div class="skel-b" style="width:38%;height:9px;"></div><div class="skel-b" style="width:88%;height:9px;"></div><div class="skel-b" style="width:72%;height:9px;"></div></div>
+      <div class="skel"><div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div><div class="skel-b" style="width:50%;height:12px;"></div><div class="skel-b" style="width:32%;height:9px;"></div><div class="skel-b" style="width:92%;height:9px;"></div><div class="skel-b" style="width:68%;height:9px;"></div></div>
+      <div class="skel"><div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div><div class="skel-b" style="width:72%;height:12px;"></div><div class="skel-b" style="width:45%;height:9px;"></div><div class="skel-b" style="width:80%;height:9px;"></div><div class="skel-b" style="width:60%;height:9px;"></div></div>
+      <div class="skel"><div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div><div class="skel-b" style="width:56%;height:12px;"></div><div class="skel-b" style="width:28%;height:9px;"></div><div class="skel-b" style="width:84%;height:9px;"></div><div class="skel-b" style="width:76%;height:9px;"></div></div>
     </div>
   </main>
 
   <!-- OZO FAB -->
   <button id="ozo-fab" onclick="toggleOzo()" aria-label="Open Ozo AI">
     <div class="fab-dot"></div>
-    <!-- Inline SVG: sparkle star in blue circle -->
-    <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 54 54" fill="none">
       <circle cx="27" cy="27" r="27" fill="#1650DC"/>
       <path d="M27 10 L29.5 24 L43 27 L29.5 30 L27 44 L24.5 30 L11 27 L24.5 24 Z" fill="white"/>
       <circle cx="36" cy="17" r="2" fill="white" opacity=".65"/>
@@ -627,27 +660,15 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 
   <!-- OZO PANEL -->
   <div id="ozo-panel">
-    <!-- Top bar -->
     <div class="ozo-bar">
       <div class="ozo-av">O</div>
       <div class="ozo-info">
         <div class="ozo-name">Ozo</div>
         <div class="ozo-status">● online</div>
       </div>
-      <button class="ozo-close" onclick="toggleOzo()" aria-label="Close Ozo">&#x2715;</button>
+      <button class="ozo-close" onclick="toggleOzo()" aria-label="Close">&#x2715;</button>
     </div>
-
-    <!--
-      IFRAME — src stays "about:blank" until first open (perf).
-      On open: src is set to https://jxoj.github.io/Ozo
-      flex:1 in CSS makes it fill the entire remaining panel height.
-    -->
-    <iframe
-      id="ozo-iframe"
-      src="about:blank"
-      allow="microphone; camera; autoplay; clipboard-read; clipboard-write; fullscreen"
-      referrerpolicy="no-referrer-when-downgrade"
-    ></iframe>
+    <iframe id="ozo-iframe" src="about:blank" allow="microphone; camera; autoplay; clipboard-read; clipboard-write; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 
   <!-- INSTALL BANNER -->
@@ -659,66 +680,156 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 
 </div><!-- /#app -->
 
-<!-- JXO SDK -->
 <script src="https://jxoj.github.io/Jxo/sdk.js"></script>
-
 <script>
-/* ══════════════════════════════
+/* ════════════════════════════
+   CONSTANTS
+════════════════════════════ */
+var SESSION_KEY = 'jxo_hub_session'; // localStorage key for cached user
+
+/* ════════════════════════════
    STATE
-══════════════════════════════ */
-var allApps = [];
-var ozoOpen = false;
+════════════════════════════ */
+var allApps   = [];
+var ozoOpen   = false;
 var ozoLoaded = false;
 var deferredPrompt = null;
-var searchTimer = null;
+var activeTab = 'apps';
+var searchIframeLoaded = false;
+var lastWebQuery = '';
 
-/* ══════════════════════════════
+/* ════════════════════════════
    BOOT
-══════════════════════════════ */
+════════════════════════════ */
 (async function boot() {
-  try { await Jxo.init('com.jxo.hub'); } catch(e) { console.warn('SDK:', e); }
+  // 1. Try to restore session from localStorage so the page feels instant
+  var cached = restoreSession();
+
+  try {
+    await Jxo.init('com.jxo.hub');
+  } catch(e) {
+    console.warn('SDK init:', e);
+  }
 
   if (Jxo.isAuthenticated()) {
+    // Fresh auth from SDK — update cache
+    saveSession(Jxo.getUser());
     showApp();
+  } else if (cached) {
+    // No live token but we have a cached session — show app with cached user,
+    // and gently prompt re-auth in background so next reload is seamless
+    showApp(cached);
+    // After 3s, quietly re-auth if possible
+    setTimeout(function() {
+      if (!Jxo.isAuthenticated()) {
+        // Show a subtle re-auth nudge (not a full gate)
+        showReauthNudge();
+      }
+    }, 3000);
   } else {
     document.getElementById('auth-screen').style.display = 'flex';
     document.getElementById('app').style.display = 'none';
   }
 })();
 
-/* ══════════════════════════════
+/* ════════════════════════════
+   SESSION PERSISTENCE
+════════════════════════════ */
+function saveSession(user) {
+  if (!user) return;
+  try {
+    localStorage.setItem(SESSION_KEY, JSON.stringify({
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified,
+      savedAt: Date.now()
+    }));
+  } catch(e) {}
+}
+
+function restoreSession() {
+  try {
+    var raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    var data = JSON.parse(raw);
+    // Expire after 30 days
+    if (Date.now() - data.savedAt > 30 * 24 * 60 * 60 * 1000) {
+      localStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+    return data;
+  } catch(e) { return null; }
+}
+
+function clearSession() {
+  try { localStorage.removeItem(SESSION_KEY); } catch(e) {}
+}
+
+/* ════════════════════════════
    SHOW APP
-══════════════════════════════ */
-function showApp() {
+════════════════════════════ */
+function showApp(cachedUser) {
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  populateUser();
+
+  // Use live user if available, fall back to cached
+  var user = Jxo.isAuthenticated() ? Jxo.getUser() : cachedUser;
+  if (user) populateUser(user);
+
   fetchApps();
   initSearch();
+  initKeyboard();
   registerSW();
 }
 
-/* ══════════════════════════════
+/* ════════════════════════════
    USER
-══════════════════════════════ */
-function populateUser() {
-  var u = Jxo.getUser();
-  if (!u) return;
-  var name = u.displayName || u.email || 'User';
+════════════════════════════ */
+function populateUser(user) {
+  var name = user.displayName || user.email || 'User';
   document.getElementById('uname').textContent = name.split(' ')[0];
   var avEl = document.getElementById('av');
-  if (u.photoURL) {
-    avEl.innerHTML = '<img src="' + h(u.photoURL) + '" alt="' + h(name) + '" onerror="this.outerHTML=\'<span>' + h(name[0].toUpperCase()) + '</span>\'">';
+  if (user.photoURL) {
+    var init = name[0].toUpperCase();
+    avEl.innerHTML = '<img src="' + h(user.photoURL) + '" alt="' + h(name) + '" onerror="this.outerHTML=\'<span>' + init + '</span>\'">';
   } else {
     document.getElementById('av-init').textContent = name[0].toUpperCase();
   }
 }
 
-function doSignOut() { Jxo.signOut(); location.reload(); }
+function doSignOut() {
+  clearSession();
+  Jxo.signOut();
+  location.reload();
+}
 
-/* ══════════════════════════════
+/* re-auth nudge — subtle banner, not a gate */
+function showReauthNudge() {
+  var nudge = document.createElement('div');
+  nudge.style.cssText = [
+    'position:fixed;top:70px;left:50%;transform:translateX(-50%);',
+    'background:rgba(10,46,158,.95);border:1px solid rgba(255,255,255,.25);',
+    'border-radius:9999px;padding:.45rem 1.1rem;z-index:500;',
+    'font-size:.75rem;color:rgba(255,255,255,.7);',
+    'display:flex;align-items:center;gap:.65rem;',
+    'box-shadow:0 8px 32px rgba(10,40,160,.4);',
+    'animation:card-in .3s ease both;'
+  ].join('');
+  nudge.innerHTML = [
+    '<span>Session may have expired —</span>',
+    '<a href="#" onclick="Jxo.login();return false;" style="color:#a8c4ff;font-weight:700;text-decoration:none;">',
+    'Refresh sign-in</a>',
+    '<button onclick="this.parentElement.remove()" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:1rem;">×</button>'
+  ].join('');
+  document.body.appendChild(nudge);
+  setTimeout(function(){ if(nudge.parentNode) nudge.remove(); }, 8000);
+}
+
+/* ════════════════════════════
    APPS
-══════════════════════════════ */
+════════════════════════════ */
 async function fetchApps() {
   try {
     var res = await fetch('https://usejxo.github.io/Jxo-Hub/apps.json');
@@ -732,92 +843,193 @@ async function fetchApps() {
 }
 
 function renderApps(list) {
-  var grid = document.getElementById('grid');
+  var grid  = document.getElementById('grid');
   var count = document.getElementById('apps-count');
   count.textContent = list.length;
-
   if (!list.length) {
     grid.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><p>No apps found.</p></div>';
     return;
   }
-
   grid.innerHTML = list.map(function(app, i) {
     return '<div class="card" style="animation-delay:' + (i * 0.045) + 's" onclick="openApp(\'' + h(app.url) + '\')">' +
       '<div class="card-arrow">↗</div>' +
       '<div class="card-icon">' +
-        (app.icon
-          ? '<img src="' + h(app.icon) + '" alt="' + h(app.name) + '" onerror="this.outerHTML=\'📦\'">'
-          : '📦') +
+        (app.icon ? '<img src="' + h(app.icon) + '" alt="' + h(app.name) + '" onerror="this.outerHTML=\'📦\'">' : '📦') +
       '</div>' +
-      '<div class="card-name">' + esc(app.name) + '</div>' +
-      '<div class="card-author">by ' + esc(app.author) + '</div>' +
-      '<div class="card-desc">' + esc(app.description) + '</div>' +
+      '<div class="card-name">'   + esc(app.name)        + '</div>' +
+      '<div class="card-author">by ' + esc(app.author)   + '</div>' +
+      '<div class="card-desc">'   + esc(app.description) + '</div>' +
     '</div>';
   }).join('');
 }
 
 function renderError() {
   document.getElementById('grid').innerHTML =
-    '<div class="empty"><div class="empty-icon">📡</div><p>Could not load apps. Check connection.</p></div>';
+    '<div class="empty"><div class="empty-icon">📡</div><p>Could not load apps.</p></div>';
   document.getElementById('apps-count').textContent = '!';
 }
 
 function openApp(url) { window.open(url, '_blank', 'noopener,noreferrer'); }
 
-/* ══════════════════════════════
-   SEARCH
-══════════════════════════════ */
+/* ════════════════════════════
+   SEARCH MODAL
+════════════════════════════ */
+function openSearch() {
+  document.getElementById('search-modal').classList.add('open');
+  setTimeout(function(){ document.getElementById('sm-input').focus(); }, 50);
+}
+
+function closeSearch() {
+  document.getElementById('search-modal').classList.remove('open');
+}
+
 function initSearch() {
-  var inp = document.getElementById('search-input');
+  // Trigger from header bar
+  var trigger = document.getElementById('search-trigger');
+  trigger.addEventListener('click', openSearch);
+  trigger.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') openSearch(); });
 
+  // Live search as user types
+  var inp = document.getElementById('sm-input');
+  var debounce;
   inp.addEventListener('input', function() {
-    clearTimeout(searchTimer);
+    clearTimeout(debounce);
     var q = inp.value.trim();
-    if (!q) { clearSearch(); return; }
-
-    var lq = q.toLowerCase();
-    renderApps(allApps.filter(function(a) {
-      return (a.name + a.description + a.author).toLowerCase().includes(lq);
-    }));
-    document.getElementById('apps-label-text').textContent = 'Matching Apps';
-
-    searchTimer = setTimeout(function() { showJxoLink(q); }, 450);
-  });
-
-  inp.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') { inp.value = ''; clearSearch(); }
+    updateAppsPane(q);
+    debounce = setTimeout(function(){ updateWebPane(q); }, 400);
   });
 }
 
-function clearSearch() {
-  renderApps(allApps);
-  document.getElementById('apps-label-text').textContent = 'All Apps';
-  document.getElementById('jxo-sec').style.display = 'none';
+function initKeyboard() {
+  document.addEventListener('keydown', function(e) {
+    // ⌘K or Ctrl+K
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+    // Escape
+    if (e.key === 'Escape') {
+      closeSearch();
+    }
+  });
 }
 
-function showJxoLink(q) {
-  var sec = document.getElementById('jxo-sec');
-  sec.style.display = 'block';
-  document.getElementById('jxo-inner').innerHTML =
-    '<a class="jxo-link" href="https://jxoj.github.io/Jxo?q=' + encodeURIComponent(q) + '" target="_blank" rel="noopener">' +
-      '<div class="jxo-link-ico">🔍</div>' +
-      '<div>' +
-        '<div class="jxo-link-title">Search Jxo for "' + esc(q) + '"</div>' +
-        '<div class="jxo-link-url">jxoj.github.io/Jxo</div>' +
+/* ── Tab switching ── */
+function switchTab(tab) {
+  activeTab = tab;
+  document.getElementById('tab-apps').classList.toggle('on', tab === 'apps');
+  document.getElementById('tab-web').classList.toggle('on',  tab === 'web');
+  document.getElementById('pane-apps').classList.toggle('on', tab === 'apps');
+  document.getElementById('pane-web').classList.toggle('on',  tab === 'web');
+
+  // If switching to web and there's a query, load/update iframe
+  var q = document.getElementById('sm-input').value.trim();
+  if (tab === 'web' && q) {
+    loadSearchIframe(q);
+  }
+}
+
+/* ── Apps pane updates ── */
+function updateAppsPane(q) {
+  var container = document.getElementById('sm-apps-list');
+
+  if (!q) {
+    container.innerHTML = '<div class="sm-no-query"><div class="sm-no-query-icon">🔍</div><p>Start typing to search apps…</p></div>';
+    return;
+  }
+
+  var lq = q.toLowerCase();
+  var results = allApps.filter(function(a) {
+    return (a.name + ' ' + a.description + ' ' + a.author).toLowerCase().includes(lq);
+  });
+
+  if (!results.length) {
+    container.innerHTML = '<div class="sm-empty">No matching apps found for "<strong>' + esc(q) + '</strong>"</div>';
+    return;
+  }
+
+  container.innerHTML = results.map(function(app) {
+    return '<div class="sm-row" onclick="openApp(\'' + h(app.url) + '\')">' +
+      '<div class="sm-ico">' +
+        (app.icon ? '<img src="' + h(app.icon) + '" alt="' + h(app.name) + '" onerror="this.outerHTML=\'📦\'">' : '📦') +
       '</div>' +
-    '</a>';
+      '<div class="sm-info">' +
+        '<div class="sm-name">' + esc(app.name) + '</div>' +
+        '<div class="sm-meta">by ' + esc(app.author) + '</div>' +
+      '</div>' +
+      '<span class="sm-arr">↗</span>' +
+    '</div>';
+  }).join('');
 }
 
-/* ══════════════════════════════
+/* ── Web pane ── */
+function updateWebPane(q) {
+  // Auto-load if already on web tab
+  if (activeTab === 'web' && q) {
+    loadSearchIframe(q);
+  }
+  // If on apps tab, update tab label to hint
+  var webTab = document.getElementById('tab-web');
+  if (q) {
+    webTab.textContent = 'Jxo Web: "' + (q.length > 20 ? q.slice(0, 20) + '…' : q) + '"';
+  } else {
+    webTab.textContent = 'Jxo Web Search';
+    // Clear web pane back to placeholder
+    showWebPrompt();
+  }
+}
+
+function loadSearchIframe(q) {
+  if (q === lastWebQuery && searchIframeLoaded) return;
+  lastWebQuery = q;
+
+  var webWrap = document.querySelector('.sm-web');
+
+  // Remove old iframe and prompt
+  var oldIframe = document.getElementById('search-iframe');
+  var oldPrompt = document.getElementById('web-prompt');
+  if (oldIframe) oldIframe.remove();
+  if (oldPrompt) oldPrompt.remove();
+
+  // Create fresh iframe
+  var iframe = document.createElement('iframe');
+  iframe.id = 'search-iframe';
+  iframe.src = 'https://jxoj.github.io/Jxo?q=' + encodeURIComponent(q);
+  iframe.allow = 'autoplay; clipboard-read; clipboard-write; fullscreen';
+  iframe.referrerPolicy = 'no-referrer-when-downgrade';
+  iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;display:block;';
+  webWrap.appendChild(iframe);
+  searchIframeLoaded = true;
+}
+
+function showWebPrompt() {
+  var webWrap = document.querySelector('.sm-web');
+  var oldIframe = document.getElementById('search-iframe');
+  if (oldIframe) oldIframe.remove();
+  searchIframeLoaded = false;
+  lastWebQuery = '';
+
+  if (!document.getElementById('web-prompt')) {
+    var prompt = document.createElement('div');
+    prompt.id = 'web-prompt';
+    prompt.className = 'sm-web-prompt';
+    prompt.innerHTML = [
+      '<div class="sm-web-prompt-icon">🌐</div>',
+      '<p>Type a query and switch to this tab<br/>to search the Jxo web index.</p>',
+      '<small>Powered by jxoj.github.io/Jxo</small>'
+    ].join('');
+    webWrap.appendChild(prompt);
+  }
+}
+
+/* ════════════════════════════
    OZO
-══════════════════════════════ */
+════════════════════════════ */
 function toggleOzo() {
-  var panel = document.getElementById('ozo-panel');
+  var panel  = document.getElementById('ozo-panel');
   var iframe = document.getElementById('ozo-iframe');
   ozoOpen = !ozoOpen;
-
   if (ozoOpen) {
-    // Load iframe only on first open
     if (!ozoLoaded) {
       iframe.src = 'https://jxoj.github.io/Ozo';
       ozoLoaded = true;
@@ -828,15 +1040,14 @@ function toggleOzo() {
   }
 }
 
-/* ══════════════════════════════
+/* ════════════════════════════
    PWA
-══════════════════════════════ */
+════════════════════════════ */
 window.addEventListener('beforeinstallprompt', function(e) {
   e.preventDefault();
   deferredPrompt = e;
-  if (!sessionStorage.getItem('jxo-no-install')) {
+  if (!sessionStorage.getItem('jxo-no-install'))
     document.getElementById('install-banner').style.display = 'flex';
-  }
 });
 
 document.getElementById('btn-install').addEventListener('click', async function() {
@@ -856,13 +1067,11 @@ function registerSW() {
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
 }
 
-/* ══════════════════════════════
+/* ════════════════════════════
    UTILS
-══════════════════════════════ */
+════════════════════════════ */
 function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function h(s) { return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 </script>

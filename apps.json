@@ -9,6 +9,17 @@
       "url": "https://jxoj.github.io/Jxo-OS",            
       "category": "games",
       "tags": ["fun" , "os", "Jxo"],
+      "featured": false
+    },
+    {
+      "id": "com.jxo.legacylaunch",      
+      "name": "Jlauncher",
+      "author": "Jxo Inc",
+      "description": "Jlauncher is a Eagler Launcher. Soon to be retired",
+      "icon": "https://usejxo.github.io/Jlauncher/images/icon/icon.png",           
+      "url": "https://usejxo.github.io/Jlauncher/main.html",            
+      "category": "games",
+      "tags": ["fun" , "games", "Jxo"],
       "featured": true
     }
   ]
