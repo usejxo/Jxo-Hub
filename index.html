@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jxo Hub</title>
   <meta name="description" content="Discover and launch apps powered by the Jxo platform." />
-  <meta name="theme-color" content="#0d0d0d" />
+  <meta name="theme-color" content="#1a4fd6" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
 
@@ -15,16 +15,16 @@
 
   <style>
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --surface2: #1a1a1a;
-      --border: #222222;
-      --accent: #7effa0;
-      --accent2: #5de8ff;
-      --text: #f0f0f0;
-      --muted: #666;
-      --danger: #ff6b6b;
-      --card-hover: #161616;
+      --bg: #1a4fd6;
+      --surface: #1f5ae8;
+      --surface2: #1650c8;
+      --border: rgba(255,255,255,0.18);
+      --accent: #ffffff;
+      --accent2: #a8c8ff;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.55);
+      --danger: #ffb3b3;
+      --card-hover: #2060f0;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -69,7 +69,7 @@
       left: -60px;
       width: 200px;
       height: 200px;
-      background: radial-gradient(circle, rgba(126,255,160,0.12), transparent 70%);
+      background: radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%);
       pointer-events: none;
     }
 
@@ -99,8 +99,8 @@
     }
 
     .btn-signin {
-      background: var(--accent);
-      color: #000;
+      background: #ffffff;
+      color: #1a4fd6;
       border: none;
       border-radius: 12px;
       padding: 0.9rem 2rem;
@@ -127,7 +127,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(10,10,10,0.85);
+      background: rgba(26,79,214,0.92);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
@@ -154,19 +154,19 @@
 
     .search-wrap input {
       width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 10px;
-      color: var(--text);
+      color: #fff;
       font-family: 'DM Mono', monospace;
       font-size: 0.85rem;
       padding: 0.55rem 1rem 0.55rem 2.4rem;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    .search-wrap input:focus { border-color: var(--accent); }
-    .search-wrap input::placeholder { color: var(--muted); }
+    .search-wrap input:focus { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.2); }
+    .search-wrap input::placeholder { color: rgba(255,255,255,0.45); }
 
     .search-icon {
       position: absolute;
@@ -190,31 +190,31 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      background: var(--surface2);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 100px;
       padding: 0.3rem 0.9rem 0.3rem 0.4rem;
       cursor: pointer;
-      transition: border-color 0.2s;
+      transition: background 0.2s, border-color 0.2s;
       text-decoration: none;
       color: var(--text);
     }
 
-    .user-pill:hover { border-color: var(--accent); }
+    .user-pill:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.5); }
 
     .user-avatar {
       width: 30px;
       height: 30px;
       border-radius: 50%;
       object-fit: cover;
-      background: var(--surface);
+      background: rgba(255,255,255,0.2);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 0.75rem;
       font-weight: 700;
-      color: var(--accent);
-      border: 1px solid var(--border);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
       overflow: hidden;
     }
 
@@ -231,8 +231,8 @@
 
     .btn-signout {
       background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.6);
       border-radius: 8px;
       padding: 0.4rem 0.75rem;
       font-family: 'DM Mono', monospace;
@@ -241,7 +241,7 @@
       transition: color 0.2s, border-color 0.2s;
     }
 
-    .btn-signout:hover { color: var(--danger); border-color: var(--danger); }
+    .btn-signout:hover { color: #fff; border-color: rgba(255,255,255,0.6); }
 
     /* MAIN CONTENT */
     main {
@@ -271,8 +271,8 @@
 
     /* HERO BANNER */
     .hero {
-      background: linear-gradient(135deg, #0f1f14 0%, #0a0a14 50%, #0d1a1f 100%);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
       border-radius: 20px;
       padding: 3rem;
       margin-bottom: 3rem;
@@ -287,7 +287,7 @@
       right: -40px;
       width: 300px;
       height: 300px;
-      background: radial-gradient(circle, rgba(126,255,160,0.07), transparent 70%);
+      background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
     }
 
     .hero::after {
@@ -297,7 +297,7 @@
       left: 20%;
       width: 250px;
       height: 250px;
-      background: radial-gradient(circle, rgba(93,232,255,0.05), transparent 70%);
+      background: radial-gradient(circle, rgba(168,200,255,0.12), transparent 70%);
     }
 
     .hero h1 {
@@ -309,7 +309,7 @@
     }
 
     .hero h1 em {
-      color: var(--accent);
+      color: #a8c8ff;
       font-style: normal;
     }
 
@@ -328,8 +328,8 @@
     }
 
     .app-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
       border-radius: 16px;
       padding: 1.5rem;
       cursor: pointer;
@@ -339,15 +339,15 @@
       animation: fadeUp 0.4s both;
     }
 
+    .app-card:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-2px);
+    }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    .app-card:hover {
-      background: var(--card-hover);
-      border-color: #333;
-      transform: translateY(-2px);
     }
 
     .app-card::after {
@@ -369,12 +369,12 @@
       border-radius: 14px;
       object-fit: cover;
       margin-bottom: 1rem;
-      background: var(--surface2);
+      background: rgba(255,255,255,0.15);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.8rem;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255,255,255,0.2);
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -391,7 +391,7 @@
     .app-author {
       font-family: 'DM Mono', monospace;
       font-size: 0.72rem;
-      color: var(--accent);
+      color: #a8c8ff;
       margin-bottom: 0.6rem;
       letter-spacing: 0.04em;
     }
@@ -414,8 +414,8 @@
     }
 
     .skeleton-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 16px;
       padding: 1.5rem;
       animation: pulse 1.5s ease-in-out infinite;
@@ -427,7 +427,7 @@
     }
 
     .skeleton-line {
-      background: var(--surface2);
+      background: rgba(255,255,255,0.15);
       border-radius: 6px;
       margin-bottom: 0.75rem;
     }
@@ -451,21 +451,21 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      background: #ffffff;
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.4rem;
-      box-shadow: 0 4px 24px rgba(126,255,160,0.3);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
       transition: transform 0.2s, box-shadow 0.2s;
-      color: #000;
+      color: #1a4fd6;
     }
 
     #ozo-btn:hover {
       transform: scale(1.1) rotate(-5deg);
-      box-shadow: 0 6px 32px rgba(126,255,160,0.5);
+      box-shadow: 0 6px 32px rgba(0,0,0,0.35);
     }
 
     #ozo-label {
@@ -473,13 +473,13 @@
       bottom: 2rem;
       right: 5.5rem;
       z-index: 200;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: #ffffff;
+      border: 1px solid rgba(26,79,214,0.2);
       border-radius: 100px;
       padding: 0.4rem 0.85rem;
       font-size: 0.78rem;
       font-weight: 700;
-      color: var(--accent);
+      color: #1a4fd6;
       letter-spacing: 0.08em;
       pointer-events: none;
       opacity: 0;
@@ -501,11 +501,11 @@
       height: 560px;
       max-width: calc(100vw - 4rem);
       max-height: calc(100vh - 8rem);
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: #ffffff;
+      border: 1px solid rgba(26,79,214,0.15);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.25);
       animation: popUp 0.25s cubic-bezier(0.34,1.56,0.64,1);
     }
 
@@ -520,35 +520,36 @@
       display: flex;
       align-items: center;
       padding: 1rem 1.25rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(26,79,214,0.1);
       gap: 0.6rem;
       flex-shrink: 0;
+      background: #f0f5ff;
     }
 
     .ozo-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--accent);
+      background: #1a4fd6;
       animation: blink 2s ease-in-out infinite;
     }
 
     @keyframes blink { 0%,100% { opacity:1 } 50% { opacity:0.3 } }
 
-    .ozo-title { font-size: 0.9rem; font-weight: 700; }
-    .ozo-subtitle { font-size: 0.7rem; color: var(--muted); font-family: 'DM Mono', monospace; margin-left: auto; }
+    .ozo-title { font-size: 0.9rem; font-weight: 700; color: #1a1a1a; }
+    .ozo-subtitle { font-size: 0.7rem; color: #888; font-family: 'DM Mono', monospace; margin-left: auto; }
 
     .ozo-close {
       background: none;
       border: none;
-      color: var(--muted);
+      color: #aaa;
       cursor: pointer;
       font-size: 1.2rem;
       padding: 0.1rem 0.3rem;
       transition: color 0.2s;
     }
 
-    .ozo-close:hover { color: var(--text); }
+    .ozo-close:hover { color: #333; }
 
     #ozo-iframe {
       flex: 1;
@@ -557,32 +558,32 @@
       height: 100%;
     }
 
-    /* INSTALL BANNER */
     #install-banner {
       display: none;
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
+      background: rgba(26,79,214,0.97);
+      border-top: 1px solid rgba(255,255,255,0.2);
       padding: 1rem 2rem;
       z-index: 150;
       align-items: center;
       gap: 1rem;
+      backdrop-filter: blur(12px);
     }
 
     #install-banner p {
       flex: 1;
       font-size: 0.85rem;
-      color: #aaa;
+      color: rgba(255,255,255,0.75);
     }
 
-    #install-banner p strong { color: var(--text); }
+    #install-banner p strong { color: #fff; }
 
     .btn-install {
-      background: var(--accent);
-      color: #000;
+      background: #ffffff;
+      color: #1a4fd6;
       border: none;
       border-radius: 10px;
       padding: 0.6rem 1.25rem;
@@ -594,15 +595,17 @@
       transition: opacity 0.2s;
     }
 
-    .btn-install:hover { opacity: 0.85; }
+    .btn-install:hover { opacity: 0.9; }
 
     .btn-dismiss {
       background: none;
       border: none;
-      color: var(--muted);
+      color: rgba(255,255,255,0.5);
       cursor: pointer;
       font-size: 1.2rem;
     }
+
+    .btn-dismiss:hover { color: #fff; }
 
     /* SEARCH RESULTS */
     #jxo-search-results {
@@ -611,8 +614,8 @@
     }
 
     .jxo-result-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
       border-radius: 12px;
       padding: 1rem 1.25rem;
       margin-bottom: 0.6rem;
@@ -624,11 +627,11 @@
       transition: border-color 0.2s, background 0.2s;
     }
 
-    .jxo-result-item:hover { border-color: #333; background: var(--card-hover); }
+    .jxo-result-item:hover { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.2); }
 
     .result-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem; }
-    .result-url { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--accent); }
-    .result-snippet { font-size: 0.82rem; color: #888; line-height: 1.4; margin-top: 0.3rem; }
+    .result-url { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: #a8c8ff; }
+    .result-snippet { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.4; margin-top: 0.3rem; }
 
     @media (max-width: 600px) {
       header { padding: 0 1rem; gap: 0.6rem; }

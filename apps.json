@@ -1,0 +1,15 @@
+{
+  "apps": [
+    {
+      "id": "com.jxo.os",      
+      "name": "Jxo OS",
+      "author": "Jxo Inc",
+      "description": "Jxo OS is a web OS.",
+      "icon": "https://jxoj.github.io/Jxo-OS/images/icons/favicon.png",           
+      "url": "https://jxoj.github.io/Jxo-OS",            
+      "category": "games",
+      "tags": ["fun" , "os", "Jxo"],
+      "featured": true
+    }
+  ]
+}

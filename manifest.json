@@ -1,0 +1,26 @@
+{
+  "name": "Jxo Hub",
+  "short_name": "JxoHub",
+  "description": "Discover and launch apps built on the Jxo platform.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#1a4fd6",
+  "theme_color": "#1a4fd6",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "categories": ["utilities", "productivity"]
+}
