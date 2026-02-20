@@ -21,6 +21,28 @@
       "category": "games",
       "tags": ["fun" , "games", "Jxo"],
       "featured": true
+    },
+    {
+      "id": "github.buttertoasty.bowl",      
+      "name": "Butter Toasty",
+      "author": "ButterToasty",
+      "description": "A website made by buttertoasty on github for playing games. Check him out.",
+      "icon": "https://buttertoasty.github.io/Bowl/singleT.png",           
+      "url": "https://buttertoasty.github.io/Bowl/",            
+      "category": "games",
+      "tags": ["fun" , "games"],
+      "featured": true
+    },
+    {
+      "id": "github.nintendoboi.22",      
+      "name": "Nintendo Boi 22",
+      "author": "nintendoboi22",
+      "description": "A website made by nintendoboi22 on github for playing games. Check him out.",
+      "icon": "https://usejxo.github.io/Jxo-Hub/icons/apps/nb22.png",           
+      "url": "https://nintendoboi22.github.io/",            
+      "category": "games",
+      "tags": ["fun" , "games"],
+      "featured": true
     }
   ]
 }
