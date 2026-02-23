@@ -133,7 +133,6 @@ header{
 }
 .logo-name{font-size:1.05rem;font-weight:800;letter-spacing:-.04em;color:var(--w);}
 
-/* ── search trigger in header ── */
 .search-trigger{
   flex:1;max-width:440px;
   height:38px;
@@ -156,6 +155,16 @@ header{
 }
 
 .hdr-right{margin-left:auto;display:flex;align-items:center;gap:.5rem;flex-shrink:0;}
+
+/* shortcuts btn in header */
+.btn-shortcuts{
+  background:var(--w12);border:1.5px solid var(--w25);color:var(--w50);
+  border-radius:var(--r-pill);padding:.3rem .75rem;
+  font-family:'Outfit',sans-serif;font-weight:600;font-size:.75rem;
+  cursor:pointer;transition:color .2s,border-color .2s,background .2s;
+  display:flex;align-items:center;gap:.35rem;
+}
+.btn-shortcuts:hover{color:var(--w);border-color:var(--w50);background:var(--w06);}
 
 .user-pill{
   display:flex;align-items:center;gap:.5rem;
@@ -214,7 +223,6 @@ header{
 }
 @keyframes sm-in{from{opacity:0;transform:scale(.96) translateY(-10px);}to{opacity:1;transform:none;}}
 
-/* search bar inside modal */
 .sm-bar{
   display:flex;align-items:center;gap:.7rem;
   padding:.85rem 1.1rem;
@@ -241,7 +249,6 @@ header{
 }
 .sm-esc:hover{background:var(--w25);color:var(--w);}
 
-/* tabs */
 .sm-tabs{
   display:flex;border-bottom:1px solid var(--w12);
   flex-shrink:0;padding:0 1.1rem;
@@ -257,11 +264,9 @@ header{
 .sm-tab.on{color:var(--w);border-color:var(--w);}
 .sm-tab:hover:not(.on){color:var(--w80);}
 
-/* panes */
 .sm-pane{display:none;flex:1;overflow:hidden;}
 .sm-pane.on{display:flex;flex-direction:column;}
 
-/* ── Apps pane ── */
 .sm-apps-scroll{
   flex:1;overflow-y:auto;padding:.75rem 1rem;
   scrollbar-width:thin;scrollbar-color:var(--w12) transparent;
@@ -301,7 +306,6 @@ header{
 .sm-no-query-icon{font-size:2rem;margin-bottom:.25rem;}
 .sm-no-query p{font-size:.8rem;font-family:'Fira Code',monospace;}
 
-/* ── Web pane ── */
 .sm-web{flex:1;position:relative;overflow:hidden;}
 
 #search-iframe{
@@ -320,6 +324,306 @@ header{
 .sm-web-prompt small{
   font-family:'Fira Code',monospace;font-size:.65rem;color:var(--w25);
 }
+
+/* ══════════════════════════
+   FEATURED CAROUSEL
+══════════════════════════ */
+#featured-section{margin-bottom:2.5rem;display:none;}
+
+.featured-header{
+  display:flex;align-items:center;gap:.7rem;margin-bottom:1.25rem;
+}
+.featured-badge{
+  background:linear-gradient(135deg,#6dffa0,#4de0ff);
+  color:var(--b0);
+  border-radius:var(--r-pill);
+  padding:.15rem .7rem;
+  font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.15em;
+  font-weight:600;text-transform:uppercase;
+}
+.featured-title{
+  font-size:.9rem;font-weight:700;letter-spacing:-.02em;color:var(--w80);
+}
+
+.carousel-wrapper{
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--r-xl);
+}
+
+.carousel-track{
+  display:flex;
+  transition:transform .5s cubic-bezier(.22,1,.36,1);
+  will-change:transform;
+}
+
+.carousel-slide{
+  flex:0 0 100%;
+  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,.06) 100%);
+  border:1px solid var(--w25);
+  border-radius:var(--r-xl);
+  padding:2.5rem 2.5rem 2rem;
+  position:relative;overflow:hidden;
+  cursor:pointer;
+  transition:border-color .2s;
+  min-height:200px;
+}
+.carousel-slide:hover{border-color:var(--w50);}
+
+.slide-built-badge{
+  position:absolute;top:1.25rem;right:1.25rem;
+  background:linear-gradient(135deg,#6dffa0,#4de0ff);
+  color:var(--b0);
+  border-radius:var(--r-pill);
+  padding:.25rem .85rem;
+  font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.12em;
+  font-weight:700;text-transform:uppercase;
+  display:flex;align-items:center;gap:.3rem;
+}
+.slide-built-badge::before{
+  content:'✦';font-size:.55rem;
+}
+
+.slide-glow{
+  position:absolute;top:-60px;left:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(109,255,160,.15),transparent 65%);
+  pointer-events:none;
+}
+
+.slide-body{
+  display:flex;align-items:flex-start;gap:1.5rem;
+  position:relative;z-index:1;
+}
+
+.slide-icon{
+  width:64px;height:64px;border-radius:16px;
+  background:var(--b2);border:1px solid var(--w25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;flex-shrink:0;overflow:hidden;
+}
+.slide-icon img{width:100%;height:100%;object-fit:cover;border-radius:16px;}
+
+.slide-info{flex:1;min-width:0;}
+.slide-name{font-size:1.5rem;font-weight:900;letter-spacing:-.04em;margin-bottom:.2rem;}
+.slide-author{
+  font-family:'Fira Code',monospace;font-size:.65rem;color:#6dffa0;margin-bottom:.6rem;
+}
+.slide-desc{font-size:.88rem;color:var(--w80);line-height:1.6;max-width:560px;margin-bottom:.85rem;}
+.slide-tags{display:flex;flex-wrap:wrap;gap:.4rem;}
+.slide-tag{
+  background:var(--w12);border:1px solid var(--w25);
+  border-radius:var(--r-pill);
+  padding:.15rem .6rem;
+  font-family:'Fira Code',monospace;font-size:.6rem;color:var(--b4);
+  letter-spacing:.06em;
+}
+
+.slide-launch{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:var(--w);color:var(--b1);
+  border:none;border-radius:var(--r-pill);
+  padding:.5rem 1.25rem;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;
+  cursor:pointer;margin-top:.9rem;
+  transition:opacity .15s,transform .15s;
+}
+.slide-launch:hover{opacity:.9;transform:translateY(-1px);}
+
+/* dots */
+.carousel-dots{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.85rem 0 0;
+}
+.carousel-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--w25);border:none;cursor:pointer;
+  transition:background .2s,transform .2s,width .25s;
+  padding:0;
+}
+.carousel-dot.active{
+  background:var(--w);
+  width:20px;border-radius:3px;
+}
+
+/* carousel arrows */
+.carousel-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(10,46,158,.75);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--w25);
+  color:var(--w);font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:10;
+  transition:background .15s,border-color .15s;
+}
+.carousel-arrow:hover{background:rgba(22,80,220,.9);border-color:var(--w50);}
+.carousel-arrow.prev{left:.75rem;}
+.carousel-arrow.next{right:.75rem;}
+
+/* ══════════════════════════
+   SHORTCUTS SECTION
+══════════════════════════ */
+#shortcuts-section{margin-bottom:2.5rem;}
+
+.shortcuts-grid{
+  display:flex;flex-wrap:wrap;gap:.75rem;align-items:flex-start;
+}
+
+.shortcut-item{
+  display:flex;flex-direction:column;align-items:center;gap:.45rem;
+  width:80px;cursor:pointer;
+  position:relative;
+}
+.shortcut-icon-wrap{
+  width:56px;height:56px;border-radius:14px;
+  background:var(--w08);border:1.5px solid var(--w12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;overflow:hidden;
+  transition:border-color .15s,transform .15s,box-shadow .15s;
+}
+.shortcut-item:hover .shortcut-icon-wrap{
+  border-color:var(--w25);transform:translateY(-2px);box-shadow:var(--s2);
+}
+.shortcut-icon-wrap img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
+.shortcut-label{
+  font-size:.7rem;font-weight:600;color:var(--w80);
+  text-align:center;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;width:100%;
+}
+.shortcut-delete{
+  position:absolute;top:-6px;right:8px;
+  width:16px;height:16px;border-radius:50%;
+  background:#ff4d4d;border:2px solid var(--b1);
+  color:#fff;font-size:.6rem;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  opacity:0;transition:opacity .15s;
+}
+.shortcut-item:hover .shortcut-delete{opacity:1;}
+
+.shortcut-add{
+  width:56px;height:56px;border-radius:14px;
+  background:var(--w06);border:1.5px dashed var(--w25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;color:var(--w25);
+  cursor:pointer;
+  transition:border-color .15s,color .15s,background .15s;
+}
+.shortcut-add:hover{border-color:var(--w50);color:var(--w50);background:var(--w08);}
+
+/* ══════════════════════════
+   SHORTCUT MODAL
+══════════════════════════ */
+#shortcut-modal{
+  display:none;
+  position:fixed;inset:0;
+  z-index:800;
+  background:rgba(8,28,130,.70);
+  backdrop-filter:blur(10px);
+  align-items:center;
+  justify-content:center;
+  padding:1.5rem;
+}
+#shortcut-modal.open{display:flex;}
+
+.sc-card{
+  width:100%;max-width:420px;
+  background:var(--b0);
+  border:1.5px solid var(--w25);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  box-shadow:var(--s4);
+  animation:sm-in .22s cubic-bezier(.22,1,.36,1) both;
+}
+
+.sc-header{
+  padding:1.25rem 1.4rem .9rem;
+  border-bottom:1px solid var(--w12);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sc-title{font-size:1rem;font-weight:800;letter-spacing:-.03em;}
+.sc-close{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--w12);border:none;
+  color:var(--w50);font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .15s,color .15s;
+}
+.sc-close:hover{background:var(--w25);color:var(--w);}
+
+.sc-body{padding:1.4rem;}
+
+.sc-icon-preview{
+  width:60px;height:60px;border-radius:14px;
+  background:var(--w08);border:1.5px solid var(--w12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;margin:0 auto 1.2rem;overflow:hidden;cursor:pointer;
+  transition:border-color .15s;
+  position:relative;
+}
+.sc-icon-preview:hover{border-color:var(--w25);}
+.sc-icon-preview img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
+.sc-icon-hint{
+  position:absolute;inset:0;background:rgba(0,0,0,.4);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;color:var(--w80);font-weight:600;
+  opacity:0;transition:opacity .15s;
+}
+.sc-icon-preview:hover .sc-icon-hint{opacity:1;}
+
+.sc-field{margin-bottom:1rem;}
+.sc-field label{
+  display:block;
+  font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--w50);margin-bottom:.4rem;
+}
+.sc-field input{
+  width:100%;background:var(--w08);border:1.5px solid var(--w12);
+  border-radius:var(--r-md);
+  padding:.65rem .85rem;
+  color:var(--w);font-family:'Outfit',sans-serif;font-size:.9rem;
+  outline:none;transition:border-color .15s;
+}
+.sc-field input:focus{border-color:var(--w50);}
+.sc-field input::placeholder{color:var(--w25);}
+
+.sc-actions{display:flex;gap:.65rem;margin-top:1.4rem;}
+.btn-sc-cancel{
+  flex:1;background:var(--w08);border:1.5px solid var(--w12);
+  color:var(--w50);border-radius:var(--r-pill);
+  padding:.65rem 1rem;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.85rem;
+  cursor:pointer;transition:background .15s,color .15s;
+}
+.btn-sc-cancel:hover{background:var(--w12);color:var(--w);}
+.btn-sc-save{
+  flex:2;background:var(--w);color:var(--b1);
+  border:none;border-radius:var(--r-pill);
+  padding:.65rem 1rem;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.85rem;
+  cursor:pointer;transition:opacity .15s;
+}
+.btn-sc-save:hover{opacity:.88;}
+
+/* ══════════════════════════
+   CATEGORY FILTER
+══════════════════════════ */
+.cat-bar{
+  display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem;
+}
+.cat-btn{
+  background:var(--w08);border:1.5px solid var(--w12);
+  color:var(--w50);
+  border-radius:var(--r-pill);
+  padding:.3rem .85rem;
+  font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;
+  cursor:pointer;transition:background .15s,color .15s,border-color .15s;
+}
+.cat-btn:hover{background:var(--w12);color:var(--w80);}
+.cat-btn.active{background:var(--w);color:var(--b1);border-color:var(--w);}
 
 /* ══════════════════════════
    MAIN CONTENT
@@ -360,7 +664,6 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 .hero h1 em{font-style:normal;color:var(--b4);}
 .hero p{color:var(--w50);font-size:.95rem;line-height:1.65;max-width:400px;}
 
-/* section label */
 .sec-row{display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;}
 .sec-label{
   font-family:'Fira Code',monospace;
@@ -374,7 +677,15 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
   font-family:'Fira Code',monospace;font-size:.62rem;color:var(--w50);
 }
 
-/* apps grid */
+/* tags inline in cards */
+.card-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem;}
+.card-tag{
+  background:var(--w08);border:1px solid var(--w12);
+  border-radius:var(--r-pill);
+  padding:.1rem .5rem;
+  font-family:'Fira Code',monospace;font-size:.57rem;color:var(--b4);
+}
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(236px,1fr));
@@ -554,50 +865,18 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 }
 @keyframes ban-icon-in{from{opacity:0;transform:scale(.5) rotate(-15deg);}to{opacity:1;transform:none;}}
 
-.ban-title{
-  font-size:1.6rem;font-weight:900;letter-spacing:-.05em;
-  margin-bottom:.4rem;color:var(--w);
-}
-
-.ban-sub{
-  font-family:'Fira Code',monospace;
-  font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(255,150,150,.7);margin-bottom:1.5rem;
-}
-
-.ban-reason-box{
-  background:rgba(255,80,80,.10);
-  border:1px solid rgba(255,120,120,.20);
-  border-radius:var(--r-md);
-  padding:1rem 1.25rem;
-  margin-bottom:1.75rem;
-  text-align:left;
-}
-.ban-reason-label{
-  font-family:'Fira Code',monospace;
-  font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;
-  color:rgba(255,150,150,.6);margin-bottom:.4rem;
-}
-.ban-reason-text{
-  font-size:.88rem;line-height:1.55;color:var(--w80);
-}
-
-.ban-email{
-  font-family:'Fira Code',monospace;
-  font-size:.72rem;color:rgba(255,255,255,.35);
-  margin-bottom:1.5rem;
-}
-
+.ban-title{font-size:1.6rem;font-weight:900;letter-spacing:-.05em;margin-bottom:.4rem;color:var(--w);}
+.ban-sub{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,150,150,.7);margin-bottom:1.5rem;}
+.ban-reason-box{background:rgba(255,80,80,.10);border:1px solid rgba(255,120,120,.20);border-radius:var(--r-md);padding:1rem 1.25rem;margin-bottom:1.75rem;text-align:left;}
+.ban-reason-label{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,150,150,.6);margin-bottom:.4rem;}
+.ban-reason-text{font-size:.88rem;line-height:1.55;color:var(--w80);}
+.ban-email{font-family:'Fira Code',monospace;font-size:.72rem;color:rgba(255,255,255,.35);margin-bottom:1.5rem;}
 .btn-ban-signout{
   display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.20);
-  color:var(--w80);
-  border-radius:var(--r-pill);
-  padding:.75rem 1.75rem;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.20);color:var(--w80);
+  border-radius:var(--r-pill);padding:.75rem 1.75rem;
   font-family:'Outfit',sans-serif;font-weight:600;font-size:.88rem;
-  cursor:pointer;
-  transition:background .2s,color .2s;width:100%;
+  cursor:pointer;transition:background .2s,color .2s;width:100%;
 }
 .btn-ban-signout:hover{background:rgba(255,255,255,.20);color:var(--w);}
 
@@ -607,11 +886,13 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 @media(max-width:600px){
   header{padding:0 1rem;}
   .search-trigger-kbd{display:none;}
+  .btn-shortcuts span{display:none;}
   main{padding:1.5rem 1rem 9rem;}
   .hero{padding:2rem 1.5rem;}
   #ozo-panel{right:0;bottom:0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border-radius:0;border:none;}
   #search-modal{padding:3.5rem 0 0;}
   .sm-card{border-radius:var(--r-xl) var(--r-xl) 0 0;max-height:none;height:calc(100dvh - 3.5rem);}
+  .slide-body{flex-direction:column;gap:1rem;}
 }
 </style>
 </head>
@@ -659,6 +940,35 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
   </div>
 </div>
 
+<!-- ── SHORTCUT MODAL ────────────────────────────────── -->
+<div id="shortcut-modal">
+  <div class="sc-card">
+    <div class="sc-header">
+      <div class="sc-title">Add Shortcut</div>
+      <button class="sc-close" onclick="closeShortcutModal()">&#x2715;</button>
+    </div>
+    <div class="sc-body">
+      <div class="sc-icon-preview" id="sc-icon-preview" onclick="document.getElementById('sc-icon-file').click()">
+        <span id="sc-icon-emoji">🔗</span>
+        <div class="sc-icon-hint">Upload Icon</div>
+      </div>
+      <input type="file" id="sc-icon-file" accept="image/*" style="display:none" onchange="handleShortcutIcon(event)"/>
+      <div class="sc-field">
+        <label>Name</label>
+        <input type="text" id="sc-name" placeholder="e.g. My App" maxlength="30"/>
+      </div>
+      <div class="sc-field">
+        <label>URL</label>
+        <input type="url" id="sc-url" placeholder="https://example.com"/>
+      </div>
+      <div class="sc-actions">
+        <button class="btn-sc-cancel" onclick="closeShortcutModal()">Cancel</button>
+        <button class="btn-sc-save" onclick="saveShortcut()">Add Shortcut</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── APP ────────────────────────────────────────────── -->
 <div id="app">
 
@@ -668,7 +978,6 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
       <span class="logo-name">JxoHub</span>
     </a>
 
-    <!-- clicking this opens the search modal -->
     <div class="search-trigger" id="search-trigger" role="button" tabindex="0" aria-label="Open search">
       <span class="search-trigger-icon">
         <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -680,6 +989,10 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
     </div>
 
     <div class="hdr-right">
+      <button class="btn-shortcuts" onclick="openShortcutModal()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Shortcut</span>
+      </button>
       <div class="user-pill" onclick="Jxo.openAccountManager()">
         <div class="av" id="av"><span id="av-init">?</span></div>
         <span class="uname" id="uname">…</span>
@@ -691,8 +1004,6 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
   <!-- ── SEARCH MODAL ───────────────────────────────── -->
   <div id="search-modal" role="dialog" aria-modal="true" aria-label="Search">
     <div class="sm-card">
-
-      <!-- input bar -->
       <div class="sm-bar">
         <span class="sm-bar-icon">
           <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -702,15 +1013,11 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
         <input id="sm-input" type="text" placeholder="Search apps or anything on the web…" autocomplete="off" spellcheck="false"/>
         <button class="sm-esc" onclick="closeSearch()" title="Close (Esc)">esc</button>
       </div>
-
-      <!-- tabs -->
       <div class="sm-tabs">
         <button class="sm-tab on" id="tab-apps" onclick="switchTab('apps')">Apps</button>
         <button class="sm-tab" id="tab-web"  onclick="switchTab('web')">Jxo Web Search</button>
         <button class="sm-tab" id="tab-ozo"  onclick="switchTab('ozo')">✦ Ozo AI</button>
       </div>
-
-      <!-- Apps pane -->
       <div class="sm-pane on" id="pane-apps">
         <div class="sm-apps-scroll" id="sm-apps-list">
           <div class="sm-no-query">
@@ -719,8 +1026,6 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
           </div>
         </div>
       </div>
-
-      <!-- Web pane -->
       <div class="sm-pane" id="pane-web">
         <div class="sm-web">
           <div class="sm-web-prompt" id="web-prompt">
@@ -728,25 +1033,18 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
             <p>Type a query and switch to this tab<br/>to search the Jxo web index.</p>
             <small>Powered by jxoj.github.io/Jxo</small>
           </div>
-          <!-- iframe is injected into .sm-web dynamically -->
         </div>
       </div>
-
-      <!-- Ozo pane -->
       <div class="sm-pane" id="pane-ozo">
-        <iframe
-          id="ozo-search-iframe"
-          src="about:blank"
+        <iframe id="ozo-search-iframe" src="about:blank"
           allow="microphone; camera; autoplay; clipboard-read; clipboard-write; fullscreen"
           referrerpolicy="no-referrer-when-downgrade"
-          style="flex:1;width:100%;border:none;display:block;"
-        ></iframe>
+          style="flex:1;width:100%;border:none;display:block;"></iframe>
       </div>
-
     </div>
   </div>
-  <!-- backdrop click closes modal -->
   <script>document.getElementById('search-modal').addEventListener('click',function(e){if(e.target===this)closeSearch();});</script>
+  <script>document.getElementById('shortcut-modal').addEventListener('click',function(e){if(e.target===this)closeShortcutModal();});</script>
 
   <!-- ── MAIN ───────────────────────────────────────── -->
   <main>
@@ -757,11 +1055,38 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
       <p>Curated tools and experiences from the community. One click to launch.</p>
     </section>
 
+    <!-- SHORTCUTS -->
+    <section id="shortcuts-section" style="display:none;">
+      <div class="sec-row">
+        <span class="sec-label">My Shortcuts</span>
+        <div class="sec-line"></div>
+      </div>
+      <div class="shortcuts-grid" id="shortcuts-grid"></div>
+    </section>
+
+    <!-- FEATURED CAROUSEL -->
+    <section id="featured-section">
+      <div class="featured-header">
+        <span class="featured-badge">✦ Featured</span>
+        <span class="featured-title">Built on Jxo &amp; Community Picks</span>
+      </div>
+      <div class="carousel-wrapper">
+        <button class="carousel-arrow prev" onclick="carouselStep(-1)" aria-label="Previous">&#8592;</button>
+        <div class="carousel-track" id="carousel-track"></div>
+        <button class="carousel-arrow next" onclick="carouselStep(1)" aria-label="Next">&#8594;</button>
+      </div>
+      <div class="carousel-dots" id="carousel-dots"></div>
+    </section>
+
+    <!-- ALL APPS -->
     <div class="sec-row">
       <span class="sec-label" id="apps-label">All Apps</span>
       <div class="sec-line"></div>
       <span class="sec-badge" id="apps-count">—</span>
     </div>
+
+    <!-- Category filter bar -->
+    <div class="cat-bar" id="cat-bar"></div>
 
     <div class="grid" id="grid">
       <div class="skel"><div class="skel-b" style="width:50px;height:50px;border-radius:13px;margin-bottom:.95rem;"></div><div class="skel-b" style="width:62%;height:12px;"></div><div class="skel-b" style="width:38%;height:9px;"></div><div class="skel-b" style="width:88%;height:9px;"></div><div class="skel-b" style="width:72%;height:9px;"></div></div>
@@ -810,57 +1135,42 @@ main{max-width:1180px;margin:0 auto;padding:2.25rem 1.5rem 9rem;}
 /* ════════════════════════════
    CONSTANTS
 ════════════════════════════ */
-var SESSION_KEY = 'jxo_hub_session'; // localStorage key for cached user
+var SESSION_KEY   = 'jxo_hub_session';
+var SHORTCUTS_KEY = 'jxo_hub_shortcuts';
 
 /* ════════════════════════════
    STATE
 ════════════════════════════ */
-var allApps   = [];
-var ozoOpen   = false;
-var ozoLoaded = false;
-var deferredPrompt = null;
-var activeTab = 'apps';
+var allApps          = [];
+var featuredApps     = [];
+var ozoOpen          = false;
+var ozoLoaded        = false;
+var deferredPrompt   = null;
+var activeTab        = 'apps';
 var searchIframeLoaded = false;
-var lastWebQuery = '';
+var lastWebQuery     = '';
+var carouselIndex    = 0;
+var carouselTimer    = null;
+var activeCategory   = 'All';
+var shortcuts        = [];
+var pendingIconData  = null; // base64 or null for shortcut icon
+var ozoSearchLoaded  = false;
 
 /* ════════════════════════════
    BOOT
 ════════════════════════════ */
 (async function boot() {
   var cached = restoreSession();
-
-  try {
-    await Jxo.init('com.jxo.hub');
-  } catch(e) {
-    console.warn('SDK init:', e);
-  }
+  try { await Jxo.init('com.jxo.hub'); } catch(e) { console.warn('SDK init:', e); }
 
   var user = Jxo.isAuthenticated() ? Jxo.getUser() : cached;
+  if (!user) { document.getElementById('auth-screen').style.display='flex'; return; }
 
-  if (!user) {
-    // Not signed in at all
-    document.getElementById('auth-screen').style.display = 'flex';
-    return;
-  }
-
-  // ── Ban check ──────────────────────────────────────────
   var ban = await checkBan(user.email);
-  if (ban) {
-    showBanScreen(user.email, ban.reason);
-    return;
-  }
+  if (ban) { showBanScreen(user.email, ban.reason); return; }
 
-  // ── All clear ──────────────────────────────────────────
-  if (Jxo.isAuthenticated()) {
-    saveSession(user);
-    showApp();
-  } else {
-    // Cached session, no live token
-    showApp(cached);
-    setTimeout(function() {
-      if (!Jxo.isAuthenticated()) showReauthNudge();
-    }, 3000);
-  }
+  if (Jxo.isAuthenticated()) { saveSession(user); showApp(); }
+  else { showApp(cached); setTimeout(function(){ if(!Jxo.isAuthenticated()) showReauthNudge(); }, 3000); }
 })();
 
 /* ════════════════════════════
@@ -869,90 +1179,57 @@ var lastWebQuery = '';
 async function checkBan(email) {
   if (!email) return null;
   try {
-    var res = await fetch('https://usejxo.github.io/Jxo-Hub/bans.json', { cache: 'no-store' });
-    if (!res.ok) return null; // Can't load bans → don't block anyone
+    var res = await fetch('https://usejxo.github.io/Jxo-Hub/bans.json', { cache:'no-store' });
+    if (!res.ok) return null;
     var data = await res.json();
     var rules = data.bans || [];
     var lowerEmail = email.toLowerCase();
-
-    for (var i = 0; i < rules.length; i++) {
+    for (var i=0;i<rules.length;i++) {
       var rule = rules[i];
-      // Support both exact email match and substring/wildcard pattern
-      var pattern = (rule.email || rule.pattern || '').toLowerCase();
+      var pattern = (rule.email||rule.pattern||'').toLowerCase();
       if (!pattern) continue;
-      if (lowerEmail === pattern || lowerEmail.includes(pattern)) {
-        return { reason: rule.reason || 'No reason provided.' };
-      }
+      if (lowerEmail===pattern||lowerEmail.includes(pattern)) return { reason: rule.reason||'No reason provided.' };
     }
     return null;
-  } catch(e) {
-    // Network error → fail open (don't ban)
-    console.warn('Ban check failed, failing open:', e);
-    return null;
-  }
+  } catch(e) { console.warn('Ban check failed:',e); return null; }
 }
 
 function showBanScreen(email, reason) {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'none';
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').style.display='none';
   document.getElementById('ban-reason-text').textContent = reason;
-  document.getElementById('ban-email-text').textContent = email;
-  document.getElementById('ban-screen').style.display = 'flex';
+  document.getElementById('ban-email-text').textContent  = email;
+  document.getElementById('ban-screen').style.display='flex';
 }
-
-function doBanSignOut() {
-  clearSession();
-  if (Jxo.isAuthenticated()) Jxo.signOut();
-  // Reload to show auth screen
-  location.reload();
-}
+function doBanSignOut() { clearSession(); if(Jxo.isAuthenticated()) Jxo.signOut(); location.reload(); }
 
 /* ════════════════════════════
    SESSION PERSISTENCE
 ════════════════════════════ */
 function saveSession(user) {
   if (!user) return;
-  try {
-    localStorage.setItem(SESSION_KEY, JSON.stringify({
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
-      savedAt: Date.now()
-    }));
-  } catch(e) {}
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify({uid:user.uid,email:user.email,displayName:user.displayName,photoURL:user.photoURL,emailVerified:user.emailVerified,savedAt:Date.now()})); } catch(e) {}
 }
-
 function restoreSession() {
   try {
     var raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return null;
     var data = JSON.parse(raw);
-    // Expire after 30 days
-    if (Date.now() - data.savedAt > 30 * 24 * 60 * 60 * 1000) {
-      localStorage.removeItem(SESSION_KEY);
-      return null;
-    }
+    if (Date.now()-data.savedAt > 30*24*60*60*1000) { localStorage.removeItem(SESSION_KEY); return null; }
     return data;
   } catch(e) { return null; }
 }
-
-function clearSession() {
-  try { localStorage.removeItem(SESSION_KEY); } catch(e) {}
-}
+function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch(e) {} }
 
 /* ════════════════════════════
    SHOW APP
 ════════════════════════════ */
 function showApp(cachedUser) {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-
-  // Use live user if available, fall back to cached
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').style.display='block';
   var user = Jxo.isAuthenticated() ? Jxo.getUser() : cachedUser;
   if (user) populateUser(user);
-
+  loadShortcuts();
   fetchApps();
   initSearch();
   initKeyboard();
@@ -968,36 +1245,18 @@ function populateUser(user) {
   var avEl = document.getElementById('av');
   if (user.photoURL) {
     var init = name[0].toUpperCase();
-    avEl.innerHTML = '<img src="' + h(user.photoURL) + '" alt="' + h(name) + '" onerror="this.outerHTML=\'<span>' + init + '</span>\'">';
+    avEl.innerHTML = '<img src="'+h(user.photoURL)+'" alt="'+h(name)+'" onerror="this.outerHTML=\'<span>'+init+'</span>\'">';
   } else {
     document.getElementById('av-init').textContent = name[0].toUpperCase();
   }
 }
 
-function doSignOut() {
-  clearSession();
-  Jxo.signOut();
-  location.reload();
-}
+function doSignOut() { clearSession(); Jxo.signOut(); location.reload(); }
 
-/* re-auth nudge — subtle banner, not a gate */
 function showReauthNudge() {
   var nudge = document.createElement('div');
-  nudge.style.cssText = [
-    'position:fixed;top:70px;left:50%;transform:translateX(-50%);',
-    'background:rgba(10,46,158,.95);border:1px solid rgba(255,255,255,.25);',
-    'border-radius:9999px;padding:.45rem 1.1rem;z-index:500;',
-    'font-size:.75rem;color:rgba(255,255,255,.7);',
-    'display:flex;align-items:center;gap:.65rem;',
-    'box-shadow:0 8px 32px rgba(10,40,160,.4);',
-    'animation:card-in .3s ease both;'
-  ].join('');
-  nudge.innerHTML = [
-    '<span>Session may have expired —</span>',
-    '<a href="#" onclick="Jxo.login();return false;" style="color:#a8c4ff;font-weight:700;text-decoration:none;">',
-    'Refresh sign-in</a>',
-    '<button onclick="this.parentElement.remove()" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:1rem;">×</button>'
-  ].join('');
+  nudge.style.cssText='position:fixed;top:70px;left:50%;transform:translateX(-50%);background:rgba(10,46,158,.95);border:1px solid rgba(255,255,255,.25);border-radius:9999px;padding:.45rem 1.1rem;z-index:500;font-size:.75rem;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:.65rem;box-shadow:0 8px 32px rgba(10,40,160,.4);animation:card-in .3s ease both;';
+  nudge.innerHTML='<span>Session may have expired —</span><a href="#" onclick="Jxo.login();return false;" style="color:#a8c4ff;font-weight:700;text-decoration:none;">Refresh sign-in</a><button onclick="this.parentElement.remove()" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:1rem;">×</button>';
   document.body.appendChild(nudge);
   setTimeout(function(){ if(nudge.parentNode) nudge.remove(); }, 8000);
 }
@@ -1011,40 +1270,245 @@ async function fetchApps() {
     if (!res.ok) throw 0;
     var data = await res.json();
     allApps = data.apps || [];
+
+    // Grab featured (max 10, only those with featured:true)
+    featuredApps = allApps.filter(function(a){ return a.featured === true; }).slice(0, 10);
+
+    renderFeatured();
+    renderCategoryBar();
     renderApps(allApps);
   } catch(_) {
     renderError();
   }
 }
 
+/* ════════════════════════════
+   FEATURED CAROUSEL
+════════════════════════════ */
+function renderFeatured() {
+  if (!featuredApps.length) { document.getElementById('featured-section').style.display='none'; return; }
+  document.getElementById('featured-section').style.display='block';
+
+  var track = document.getElementById('carousel-track');
+  var dots  = document.getElementById('carousel-dots');
+
+  track.innerHTML = featuredApps.map(function(app, i) {
+    var tagsHtml = '';
+    if (app.tags && app.tags.length) {
+      tagsHtml = '<div class="slide-tags">' +
+        app.tags.map(function(t){ return '<span class="slide-tag">'+esc(t)+'</span>'; }).join('') +
+      '</div>';
+    }
+    return '<div class="carousel-slide" onclick="openApp(\''+h(app.url)+'\')">' +
+      '<div class="slide-glow"></div>' +
+      '<div class="slide-built-badge">Built on Jxo</div>' +
+      '<div class="slide-body">' +
+        '<div class="slide-icon">' +
+          (app.icon ? '<img src="'+h(app.icon)+'" alt="'+h(app.name)+'" onerror="this.outerHTML=\'📦\'">' : '📦') +
+        '</div>' +
+        '<div class="slide-info">' +
+          '<div class="slide-name">'+esc(app.name)+'</div>' +
+          '<div class="slide-author">by '+esc(app.author)+'</div>' +
+          '<div class="slide-desc">'+esc(app.description)+'</div>' +
+          tagsHtml +
+          '<button class="slide-launch" onclick="event.stopPropagation();openApp(\''+h(app.url)+'\')">Launch App ↗</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  dots.innerHTML = featuredApps.map(function(_, i) {
+    return '<button class="carousel-dot'+(i===0?' active':'')+'" onclick="carouselGoTo('+i+')" aria-label="Slide '+(i+1)+'"></button>';
+  }).join('');
+
+  carouselIndex = 0;
+  startCarouselTimer();
+}
+
+function carouselGoTo(index) {
+  var count = featuredApps.length;
+  if (!count) return;
+  carouselIndex = ((index % count) + count) % count;
+  document.getElementById('carousel-track').style.transform = 'translateX(-'+carouselIndex+'00%)';
+  var dots = document.querySelectorAll('.carousel-dot');
+  dots.forEach(function(d, i){ d.classList.toggle('active', i===carouselIndex); });
+}
+
+function carouselStep(dir) {
+  clearCarouselTimer();
+  carouselGoTo(carouselIndex + dir);
+  startCarouselTimer();
+}
+
+function startCarouselTimer() {
+  clearCarouselTimer();
+  if (featuredApps.length > 1) {
+    carouselTimer = setInterval(function(){ carouselGoTo(carouselIndex+1); }, 5000);
+  }
+}
+function clearCarouselTimer() { if (carouselTimer) { clearInterval(carouselTimer); carouselTimer=null; } }
+
+// Pause on hover
+document.addEventListener('DOMContentLoaded', function(){
+  var wrapper = document.querySelector('.carousel-wrapper');
+  if (wrapper) {
+    wrapper.addEventListener('mouseenter', clearCarouselTimer);
+    wrapper.addEventListener('mouseleave', startCarouselTimer);
+  }
+});
+
+/* ════════════════════════════
+   CATEGORY BAR
+════════════════════════════ */
+function renderCategoryBar() {
+  var cats = ['All'];
+  allApps.forEach(function(a){
+    if (a.category && !cats.includes(a.category)) cats.push(a.category);
+  });
+  // Also gather from tags
+  // Only show if there are real categories
+  var bar = document.getElementById('cat-bar');
+  if (cats.length <= 1) { bar.style.display='none'; return; }
+  bar.innerHTML = cats.map(function(c){
+    return '<button class="cat-btn'+(c==='All'?' active':'')+'" onclick="setCategory(\''+esc(c)+'\')">'+esc(c)+'</button>';
+  }).join('');
+}
+
+function setCategory(cat) {
+  activeCategory = cat;
+  document.querySelectorAll('.cat-btn').forEach(function(b){
+    b.classList.toggle('active', b.textContent === cat);
+  });
+  var filtered = cat==='All' ? allApps : allApps.filter(function(a){ return a.category===cat; });
+  renderApps(filtered);
+}
+
+/* ════════════════════════════
+   APPS GRID
+════════════════════════════ */
 function renderApps(list) {
   var grid  = document.getElementById('grid');
   var count = document.getElementById('apps-count');
   count.textContent = list.length;
   if (!list.length) {
-    grid.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><p>No apps found.</p></div>';
+    grid.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>No apps found.</p></div>';
     return;
   }
   grid.innerHTML = list.map(function(app, i) {
-    return '<div class="card" style="animation-delay:' + (i * 0.045) + 's" onclick="openApp(\'' + h(app.url) + '\')">' +
-      '<div class="card-arrow">↗</div>' +
-      '<div class="card-icon">' +
-        (app.icon ? '<img src="' + h(app.icon) + '" alt="' + h(app.name) + '" onerror="this.outerHTML=\'📦\'">' : '📦') +
-      '</div>' +
-      '<div class="card-name">'   + esc(app.name)        + '</div>' +
-      '<div class="card-author">by ' + esc(app.author)   + '</div>' +
-      '<div class="card-desc">'   + esc(app.description) + '</div>' +
+    var tagsHtml = '';
+    if (app.tags && app.tags.length) {
+      tagsHtml = '<div class="card-tags">' +
+        app.tags.map(function(t){ return '<span class="card-tag">'+esc(t)+'</span>'; }).join('') +
+      '</div>';
+    }
+    return '<div class="card" style="animation-delay:'+(i*0.045)+'s" onclick="openApp(\''+h(app.url)+'\')">'+
+      '<div class="card-arrow">↗</div>'+
+      '<div class="card-icon">'+(app.icon?'<img src="'+h(app.icon)+'" alt="'+h(app.name)+'" onerror="this.outerHTML=\'📦\'">':'📦')+'</div>'+
+      '<div class="card-name">'+esc(app.name)+'</div>'+
+      '<div class="card-author">by '+esc(app.author)+'</div>'+
+      '<div class="card-desc">'+esc(app.description)+'</div>'+
+      tagsHtml+
     '</div>';
   }).join('');
 }
 
 function renderError() {
-  document.getElementById('grid').innerHTML =
-    '<div class="empty"><div class="empty-icon">📡</div><p>Could not load apps.</p></div>';
-  document.getElementById('apps-count').textContent = '!';
+  document.getElementById('grid').innerHTML='<div class="empty"><div class="empty-icon">📡</div><p>Could not load apps.</p></div>';
+  document.getElementById('apps-count').textContent='!';
 }
 
-function openApp(url) { window.open(url, '_blank', 'noopener,noreferrer'); }
+/* Open in new WINDOW */
+function openApp(url) {
+  window.open(url, '_blank', 'noopener,noreferrer,width=1200,height=800');
+}
+
+/* ════════════════════════════
+   SHORTCUTS
+════════════════════════════ */
+function loadShortcuts() {
+  try {
+    var raw = localStorage.getItem(SHORTCUTS_KEY);
+    shortcuts = raw ? JSON.parse(raw) : [];
+  } catch(e) { shortcuts = []; }
+  renderShortcuts();
+}
+
+function saveShortcuts() {
+  try { localStorage.setItem(SHORTCUTS_KEY, JSON.stringify(shortcuts)); } catch(e) {}
+}
+
+function renderShortcuts() {
+  var sec  = document.getElementById('shortcuts-section');
+  var grid = document.getElementById('shortcuts-grid');
+
+  if (!shortcuts.length) { sec.style.display='none'; return; }
+  sec.style.display='block';
+
+  grid.innerHTML = shortcuts.map(function(sc, i) {
+    var iconHtml = sc.icon
+      ? '<img src="'+h(sc.icon)+'" alt="'+h(sc.name)+'" onerror="this.style.display=\'none\'">'
+      : '<span>🔗</span>';
+    return '<div class="shortcut-item" onclick="openApp(\''+h(sc.url)+'\')" title="'+h(sc.name)+' — '+h(sc.url)+'">'+
+      '<div class="shortcut-icon-wrap">'+iconHtml+'</div>'+
+      '<div class="shortcut-label">'+esc(sc.name)+'</div>'+
+      '<button class="shortcut-delete" onclick="event.stopPropagation();deleteShortcut('+i+')" title="Remove">×</button>'+
+    '</div>';
+  }).join('');
+
+  // Add button
+  grid.innerHTML += '<div class="shortcut-item" onclick="openShortcutModal()" title="Add shortcut">'+
+    '<div class="shortcut-add">+</div>'+
+    '<div class="shortcut-label" style="color:var(--w25)">Add</div>'+
+  '</div>';
+}
+
+function deleteShortcut(index) {
+  shortcuts.splice(index, 1);
+  saveShortcuts();
+  renderShortcuts();
+}
+
+/* Shortcut modal */
+function openShortcutModal() {
+  pendingIconData = null;
+  document.getElementById('sc-name').value = '';
+  document.getElementById('sc-url').value  = '';
+  document.getElementById('sc-icon-emoji').textContent = '🔗';
+  document.getElementById('sc-icon-preview').innerHTML = '<span id="sc-icon-emoji">🔗</span><div class="sc-icon-hint">Upload Icon</div>';
+  document.getElementById('sc-icon-file').value = '';
+  document.getElementById('shortcut-modal').classList.add('open');
+  setTimeout(function(){ document.getElementById('sc-name').focus(); }, 60);
+}
+
+function closeShortcutModal() {
+  document.getElementById('shortcut-modal').classList.remove('open');
+}
+
+function handleShortcutIcon(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    pendingIconData = e.target.result;
+    var prev = document.getElementById('sc-icon-preview');
+    prev.innerHTML = '<img src="'+pendingIconData+'" style="width:100%;height:100%;object-fit:cover;border-radius:12px;"><div class="sc-icon-hint">Change</div>';
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveShortcut() {
+  var name = document.getElementById('sc-name').value.trim();
+  var url  = document.getElementById('sc-url').value.trim();
+  if (!name) { document.getElementById('sc-name').focus(); return; }
+  if (!url)  { document.getElementById('sc-url').focus(); return; }
+  // Prepend https if missing
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+
+  shortcuts.push({ name: name, url: url, icon: pendingIconData || null });
+  saveShortcuts();
+  renderShortcuts();
+  closeShortcutModal();
+}
 
 /* ════════════════════════════
    SEARCH MODAL
@@ -1053,18 +1517,15 @@ function openSearch() {
   document.getElementById('search-modal').classList.add('open');
   setTimeout(function(){ document.getElementById('sm-input').focus(); }, 50);
 }
-
 function closeSearch() {
   document.getElementById('search-modal').classList.remove('open');
 }
 
 function initSearch() {
-  // Trigger from header bar
   var trigger = document.getElementById('search-trigger');
   trigger.addEventListener('click', openSearch);
   trigger.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') openSearch(); });
 
-  // Live search as user types
   var inp = document.getElementById('sm-input');
   var debounce;
   inp.addEventListener('input', function() {
@@ -1077,128 +1538,82 @@ function initSearch() {
 
 function initKeyboard() {
   document.addEventListener('keydown', function(e) {
-    // ⌘K or Ctrl+K
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault();
-      openSearch();
-    }
-    // Escape
-    if (e.key === 'Escape') {
-      closeSearch();
-    }
+    if ((e.metaKey||e.ctrlKey) && e.key==='k') { e.preventDefault(); openSearch(); }
+    if (e.key==='Escape') { closeSearch(); closeShortcutModal(); }
   });
 }
 
 /* ── Tab switching ── */
-var ozoSearchLoaded = false;
 function switchTab(tab) {
   activeTab = tab;
   ['apps','web','ozo'].forEach(function(t) {
-    document.getElementById('tab-' + t).classList.toggle('on', tab === t);
-    document.getElementById('pane-' + t).classList.toggle('on', tab === t);
+    document.getElementById('tab-'+t).classList.toggle('on', tab===t);
+    document.getElementById('pane-'+t).classList.toggle('on', tab===t);
   });
-
   var q = document.getElementById('sm-input').value.trim();
-
-  if (tab === 'web' && q) {
-    loadSearchIframe(q);
-  }
-
-  if (tab === 'ozo' && !ozoSearchLoaded) {
-    document.getElementById('ozo-search-iframe').src = 'https://jxoj.github.io/Ozo';
-    ozoSearchLoaded = true;
+  if (tab==='web' && q) loadSearchIframe(q);
+  if (tab==='ozo' && !ozoSearchLoaded) {
+    document.getElementById('ozo-search-iframe').src='https://jxoj.github.io/Ozo';
+    ozoSearchLoaded=true;
   }
 }
 
-/* ── Apps pane updates ── */
+/* ── Apps pane ── */
 function updateAppsPane(q) {
   var container = document.getElementById('sm-apps-list');
-
   if (!q) {
-    container.innerHTML = '<div class="sm-no-query"><div class="sm-no-query-icon">🔍</div><p>Start typing to search apps…</p></div>';
+    container.innerHTML='<div class="sm-no-query"><div class="sm-no-query-icon">🔍</div><p>Start typing to search apps…</p></div>';
     return;
   }
-
   var lq = q.toLowerCase();
-  var results = allApps.filter(function(a) {
-    return (a.name + ' ' + a.description + ' ' + a.author).toLowerCase().includes(lq);
+  var results = allApps.filter(function(a){
+    return (a.name+' '+a.description+' '+a.author+' '+(a.tags||[]).join(' ')).toLowerCase().includes(lq);
   });
-
-  if (!results.length) {
-    container.innerHTML = '<div class="sm-empty">No matching apps found for "<strong>' + esc(q) + '</strong>"</div>';
-    return;
-  }
-
+  if (!results.length) { container.innerHTML='<div class="sm-empty">No matching apps found for "<strong>'+esc(q)+'</strong>"</div>'; return; }
   container.innerHTML = results.map(function(app) {
-    return '<div class="sm-row" onclick="openApp(\'' + h(app.url) + '\')">' +
-      '<div class="sm-ico">' +
-        (app.icon ? '<img src="' + h(app.icon) + '" alt="' + h(app.name) + '" onerror="this.outerHTML=\'📦\'">' : '📦') +
-      '</div>' +
-      '<div class="sm-info">' +
-        '<div class="sm-name">' + esc(app.name) + '</div>' +
-        '<div class="sm-meta">by ' + esc(app.author) + '</div>' +
-      '</div>' +
-      '<span class="sm-arr">↗</span>' +
+    return '<div class="sm-row" onclick="openApp(\''+h(app.url)+'\')">' +
+      '<div class="sm-ico">'+(app.icon?'<img src="'+h(app.icon)+'" alt="'+h(app.name)+'" onerror="this.outerHTML=\'📦\'">':'📦')+'</div>'+
+      '<div class="sm-info"><div class="sm-name">'+esc(app.name)+'</div><div class="sm-meta">by '+esc(app.author)+(app.category?' · '+esc(app.category):'')+'</div></div>'+
+      '<span class="sm-arr">↗</span>'+
     '</div>';
   }).join('');
 }
 
 /* ── Web pane ── */
 function updateWebPane(q) {
-  // Auto-load if already on web tab
-  if (activeTab === 'web' && q) {
-    loadSearchIframe(q);
-  }
-  // If on apps tab, update tab label to hint
+  if (activeTab==='web' && q) loadSearchIframe(q);
   var webTab = document.getElementById('tab-web');
-  if (q) {
-    webTab.textContent = 'Jxo Web: "' + (q.length > 20 ? q.slice(0, 20) + '…' : q) + '"';
-  } else {
-    webTab.textContent = 'Jxo Web Search';
-    // Clear web pane back to placeholder
-    showWebPrompt();
-  }
+  if (q) { webTab.textContent='Jxo Web: "'+(q.length>20?q.slice(0,20)+'…':q)+'"'; }
+  else   { webTab.textContent='Jxo Web Search'; showWebPrompt(); }
 }
 
 function loadSearchIframe(q) {
-  if (q === lastWebQuery && searchIframeLoaded) return;
-  lastWebQuery = q;
-
-  var webWrap = document.querySelector('.sm-web');
-
-  // Remove old iframe and prompt
-  var oldIframe = document.getElementById('search-iframe');
-  var oldPrompt = document.getElementById('web-prompt');
-  if (oldIframe) oldIframe.remove();
-  if (oldPrompt) oldPrompt.remove();
-
-  // Create fresh iframe
-  var iframe = document.createElement('iframe');
-  iframe.id = 'search-iframe';
-  iframe.src = 'https://jxoj.github.io/Jxo?q=' + encodeURIComponent(q);
-  iframe.allow = 'autoplay; clipboard-read; clipboard-write; fullscreen';
-  iframe.referrerPolicy = 'no-referrer-when-downgrade';
-  iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;display:block;';
+  if (q===lastWebQuery && searchIframeLoaded) return;
+  lastWebQuery=q;
+  var webWrap=document.querySelector('.sm-web');
+  var oldIframe=document.getElementById('search-iframe');
+  var oldPrompt=document.getElementById('web-prompt');
+  if(oldIframe) oldIframe.remove();
+  if(oldPrompt) oldPrompt.remove();
+  var iframe=document.createElement('iframe');
+  iframe.id='search-iframe';
+  iframe.src='https://jxoj.github.io/Jxo?q='+encodeURIComponent(q);
+  iframe.allow='autoplay; clipboard-read; clipboard-write; fullscreen';
+  iframe.referrerPolicy='no-referrer-when-downgrade';
+  iframe.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:none;display:block;';
   webWrap.appendChild(iframe);
-  searchIframeLoaded = true;
+  searchIframeLoaded=true;
 }
 
 function showWebPrompt() {
-  var webWrap = document.querySelector('.sm-web');
-  var oldIframe = document.getElementById('search-iframe');
-  if (oldIframe) oldIframe.remove();
-  searchIframeLoaded = false;
-  lastWebQuery = '';
-
-  if (!document.getElementById('web-prompt')) {
-    var prompt = document.createElement('div');
-    prompt.id = 'web-prompt';
-    prompt.className = 'sm-web-prompt';
-    prompt.innerHTML = [
-      '<div class="sm-web-prompt-icon">🌐</div>',
-      '<p>Type a query and switch to this tab<br/>to search the Jxo web index.</p>',
-      '<small>Powered by jxoj.github.io/Jxo</small>'
-    ].join('');
+  var webWrap=document.querySelector('.sm-web');
+  var oldIframe=document.getElementById('search-iframe');
+  if(oldIframe) oldIframe.remove();
+  searchIframeLoaded=false;lastWebQuery='';
+  if(!document.getElementById('web-prompt')){
+    var prompt=document.createElement('div');
+    prompt.id='web-prompt';prompt.className='sm-web-prompt';
+    prompt.innerHTML='<div class="sm-web-prompt-icon">🌐</div><p>Type a query and switch to this tab<br/>to search the Jxo web index.</p><small>Powered by jxoj.github.io/Jxo</small>';
     webWrap.appendChild(prompt);
   }
 }
@@ -1207,54 +1622,37 @@ function showWebPrompt() {
    OZO
 ════════════════════════════ */
 function toggleOzo() {
-  var panel  = document.getElementById('ozo-panel');
-  var iframe = document.getElementById('ozo-iframe');
-  ozoOpen = !ozoOpen;
-  if (ozoOpen) {
-    if (!ozoLoaded) {
-      iframe.src = 'https://jxoj.github.io/Ozo?minimode';
-      ozoLoaded = true;
-    }
-    panel.classList.add('open');
-  } else {
-    panel.classList.remove('open');
-  }
+  var panel=document.getElementById('ozo-panel');
+  var iframe=document.getElementById('ozo-iframe');
+  ozoOpen=!ozoOpen;
+  if(ozoOpen){ if(!ozoLoaded){ iframe.src='https://jxoj.github.io/Ozo?minimode'; ozoLoaded=true; } panel.classList.add('open'); }
+  else panel.classList.remove('open');
 }
 
 /* ════════════════════════════
    PWA
 ════════════════════════════ */
-window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault();
-  deferredPrompt = e;
-  if (!sessionStorage.getItem('jxo-no-install'))
-    document.getElementById('install-banner').style.display = 'flex';
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault();deferredPrompt=e;
+  if(!sessionStorage.getItem('jxo-no-install')) document.getElementById('install-banner').style.display='flex';
 });
 
-document.getElementById('btn-install').addEventListener('click', async function() {
-  if (!deferredPrompt) return;
+document.getElementById('btn-install').addEventListener('click',async function(){
+  if(!deferredPrompt) return;
   deferredPrompt.prompt();
-  var r = await deferredPrompt.userChoice;
-  if (r.outcome === 'accepted') dismissInstall();
-  deferredPrompt = null;
+  var r=await deferredPrompt.userChoice;
+  if(r.outcome==='accepted') dismissInstall();
+  deferredPrompt=null;
 });
 
-function dismissInstall() {
-  document.getElementById('install-banner').style.display = 'none';
-  sessionStorage.setItem('jxo-no-install', '1');
-}
-
-function registerSW() {
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
-}
+function dismissInstall(){ document.getElementById('install-banner').style.display='none'; sessionStorage.setItem('jxo-no-install','1'); }
+function registerSW(){ if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){}); }
 
 /* ════════════════════════════
    UTILS
 ════════════════════════════ */
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function h(s) { return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function h(s){ return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 </script>
 </body>
 </html>
