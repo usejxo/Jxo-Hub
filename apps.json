@@ -42,6 +42,17 @@
       "url": "https://nintendoboi22.github.io/",            
       "category": "games",
       "tags": ["fun" , "games"],
+      "featured": false
+    },
+        {
+      "id": "com.usejxo.dupecord",      
+      "name": "Jcord",
+      "author": "Usejxo",
+      "description": "A discord clone made using peerJS",
+      "icon": "https://usejxo.github.io/Jxo-Hub/icons/apps/jcord.png",           
+      "url": "https://usejxo.github.io/Dupecord",            
+      "category": "games",
+      "tags": ["fun" , "games"],
       "featured": true
     }
   ]
